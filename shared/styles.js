@@ -5,7 +5,7 @@ injectGlobal`
     box-sizing: border-box;
   }
   body {
-    background: #DFCFBE;
+    /* background: #DFCFBE; */
     font-family: Helvetica, sans-serif;
   }
 `

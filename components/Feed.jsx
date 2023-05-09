@@ -1,11 +1,12 @@
 import { css } from "@emotion/css";
 
 const FeedCss = css`
-  max-width: 900px;
+  max-width: 80vw;
+  min-width: 700px;
   border: 1px solid rgba(211, 211, 211, 0.56);
   border-radius: 20px;
   background: white;
-  margin: 0px 30px 60px 30px;
+  margin: 0px 0px 23px 0px;
   font-size: 13px;
 
   .user {

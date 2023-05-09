@@ -64,18 +64,33 @@ const FeedCss = css`
     .likeBtn,
     .commentBtn,
     .shareBtn {
-      width: 30px;
+      width: 20px;
       height: 30px;
       border-radius: 50%;
       cursor: pointer;
-      border: 1px solid #d9d9d9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      /* border: 1px solid #d9d9d9; */
+
+      img {
+        width: 100%;
+      }
     }
   }
 
   .likeBtn {
-    background-color: #f85c53;
-    border-color: #f85c53;
+    /* background-color: #f85c53; */
+    /* border-color: #f85c53; */
     margin-right: 10px;
+  }
+
+  .isLiked {
+    img {
+      filter: invert(45%) sepia(53%) saturate(761%) hue-rotate(314deg)
+        brightness(98%) contrast(99%);
+    }
   }
 
   .shareBtn {
@@ -171,36 +186,38 @@ const FeedCss = css`
   }
 `;
 
-function Feed() {
+function Feed({ name, createdAt, context, isLiked, likeCount, commentCount }) {
   return (
     <div className={FeedCss}>
       <div className="user">
         <div className="avatar" />
         <div className="userData">
-          <div className="userName">你的朋友</div>
-          <div className="timeStamp">一小時前</div>
+          <div className="userName">{name || "Error"}</div>
+          <div className="timeStamp">{createdAt}</div>
         </div>
       </div>
-      <div className="feedText">
-        動態動態動態動態動態動態，動態動態動態動態。
-      </div>
+      <div className="feedText">{context}</div>
       <div className="functionList">
-        <div className="likeBtn" />
-        <div className="commentBtn" />
+        <div className={`likeBtn${isLiked ? " isLiked" : ""}`}>
+          <img src="/images/heart.svg" alt="liked" />
+        </div>
+        <div className="commentBtn">
+          <img src="/images/comment.svg" alt="comment button" />
+        </div>
         <div className="shareBtn" />
       </div>
       <div className="interactionStatus">
         <div className="whoLikes">
-          <div className="friendPhotos">
+          {/* <div className="friendPhotos">
             <div className="friendPhoto" />
             <div className="friendPhoto" />
             <div className="friendPhoto" />
-          </div>
-          <div className="namesOfLikes">朋友A、朋友B和其他 326 人</div>
+          </div> */}
+          <div className="namesOfLikes"> {likeCount} 人喜歡這則貼文</div>
         </div>
         <div className="interactionInfo">
-          <div className="numberOfComments">68 則留言</div>
-          <div className="numberOfSharings">5 次分享</div>
+          <div className="numberOfComments">{commentCount} 則留言</div>
+          {/* <div className="numberOfSharings">5 次分享</div> */}
         </div>
       </div>
       <div className="commentArea">

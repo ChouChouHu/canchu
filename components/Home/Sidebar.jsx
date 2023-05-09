@@ -1,8 +1,9 @@
 import { css } from "@emotion/css";
 import Link from "next/link";
-import { friends , user } from "../../mockData";
+import { friends, user } from "../../mockData";
 
 const SidebarCss = css`
+  position: relative;
   min-width: 370px;
   background: #ffffff;
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -40,13 +41,21 @@ const SidebarCss = css`
       }
     }
   }
+  .info {
+    position: absolute;
+    transform: translateY(40px);
+    width: 100%;
+    left: 0;
+    padding: 0 25px; // same to sidebar
+    line-height: 24px;
+  }
 `;
 
 function Sidebar() {
   return (
     <div className={SidebarCss}>
       <div className="function">
-        <Link href="/myname">
+        <Link href={`/${user.id}`}>
           <div className="circleImg">
             <img src={user.picture} alt="userphoto" />
           </div>
@@ -72,6 +81,9 @@ function Sidebar() {
           {friend.name}
         </div>
       ))}
+      <div className="info">
+        關於我們 · 隱私權條款 · Cookie 條款 · © 2023 CanChu, Inc.
+      </div>
     </div>
   );
 }

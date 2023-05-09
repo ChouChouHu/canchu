@@ -21,6 +21,7 @@ export default function MyApp({ Component, pageProps }) {
             background: #d9d9d9;
             border-radius: 50%;
             display: flex;
+            justify-content: center;
             align-items: center;
             overflow: hidden;
             img {

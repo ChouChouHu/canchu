@@ -1,4 +1,5 @@
 import { css } from "@emotion/css";
+import { user } from "../mockData";
 
 const FeedCss = css`
   max-width: 80vw;
@@ -32,6 +33,7 @@ const FeedCss = css`
         font-weight: bold;
         font-size: 16px;
         cursor: pointer;
+        margin-bottom: 5px;
 
         &:hover {
           text-decoration: underline;
@@ -224,7 +226,9 @@ function Feed({ name, createdAt, context, isLiked, likeCount, commentCount }) {
       </div>
       <div className="commentArea">
         <div className="leaveComment">
-          <div className="myAvatar" />
+          <div className="myAvatar circleImg">
+            <img src={user.picture} alt="my avatar" />
+          </div>
           <div className="commentBtn">留個言吧</div>
         </div>
       </div>

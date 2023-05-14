@@ -5,7 +5,9 @@ export const posts = [
     context: "動態動態動態動態動態動態動態動態",
     is_liked: true,
     like_count: 327,
-    comment_count: 68
+    comment_count: 68,
+    picture: "https://i.imgur.com/VTC742A.png",
+    name: "PJ"
   },
   {
     id: 2,
@@ -13,7 +15,9 @@ export const posts = [
     context: "測試二號",
     is_liked: false,
     like_count: 0,
-    comment_count: 1
+    comment_count: 1,
+    picture: "https://i.imgur.com/VTC742A.png",
+    name: "PJ"
   }
 ];
 
@@ -29,6 +33,60 @@ export const friends = [
   },
   {
     id: 2,
+    name: "Mary",
+    picture: "https://i.imgur.com/xfA6pxv.jpeg",
+    friendship: {
+      id: 2,
+      status: "friend"
+    }
+  },
+  {
+    id: 3,
+    name: "PJ",
+    picture: "https://i.imgur.com/VTC742A.png",
+    friendship: {
+      id: 1,
+      status: "friend"
+    }
+  },
+  {
+    id: 4,
+    name: "Mary",
+    picture: "https://i.imgur.com/xfA6pxv.jpeg",
+    friendship: {
+      id: 2,
+      status: "friend"
+    }
+  },
+  {
+    id: 5,
+    name: "PJ",
+    picture: "https://i.imgur.com/VTC742A.png",
+    friendship: {
+      id: 1,
+      status: "friend"
+    }
+  },
+  {
+    id: 6,
+    name: "Mary",
+    picture: "https://i.imgur.com/xfA6pxv.jpeg",
+    friendship: {
+      id: 2,
+      status: "friend"
+    }
+  },
+  {
+    id: 7,
+    name: "PJ",
+    picture: "https://i.imgur.com/VTC742A.png",
+    friendship: {
+      id: 1,
+      status: "friend"
+    }
+  },
+  {
+    id: 8,
     name: "Mary",
     picture: "https://i.imgur.com/xfA6pxv.jpeg",
     friendship: {

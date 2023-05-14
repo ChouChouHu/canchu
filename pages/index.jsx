@@ -1,9 +1,10 @@
 import Head from "next/head";
 import { css } from "@emotion/css";
 import Feed from "../components/Feed";
-import { posts } from "../mockData";
+import { posts, user } from "../mockData";
 import Layout from "../components/Layout";
 import Sidebar from "../components/Home/Sidebar";
+import PostAPost from "../components/PostAPost";
 
 const HomeCss = css`
   .container {
@@ -27,11 +28,14 @@ function Home() {
       <Layout>
         <div className={HomeCss}>
           <div className="container">
-            <Sidebar />
+            <Sidebar user={user} />
             <div className="posts">
+              <PostAPost user={user} />
               {posts.map((post) => (
                 <Feed
                   key={post.id}
+                  picture={post.picture}
+                  name={post.name}
                   createdAt={post.created_at}
                   context={post.context}
                   isLiked={post.is_liked}

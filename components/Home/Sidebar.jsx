@@ -1,6 +1,7 @@
 import { css } from "@emotion/css";
 import Link from "next/link";
-import { friends, user } from "../../mockData";
+import { useState } from "react";
+import { friends } from "../../mockData";
 
 const SidebarCss = css`
   position: relative;
@@ -19,6 +20,10 @@ const SidebarCss = css`
       align-items: center;
       color: black;
       text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
     height: 40px;
     font-size: 18px;
@@ -30,16 +35,16 @@ const SidebarCss = css`
       height: 40px;
       margin-right: 15px;
     }
-  }
-  .functionTitle {
-    color: #767676;
-    cursor: auto;
-    .circleImg {
+    .icon {
       background: transparent;
       img {
         object-fit: none;
       }
     }
+  }
+  .functionTitle {
+    color: #767676;
+    cursor: auto;
   }
   .info {
     position: absolute;
@@ -51,7 +56,8 @@ const SidebarCss = css`
   }
 `;
 
-function Sidebar() {
+function Sidebar({user}) {
+  const [showAllFriends, setShowAllFriend] = useState(false);
   return (
     <div className={SidebarCss}>
       <div className="function">
@@ -68,19 +74,32 @@ function Sidebar() {
       </div> */}
       <div className="segmentLine" />
       <div className="function functionTitle">
-        <div className="circleImg">
+        <div className="circleImg icon">
           <img src="/images/user.svg" alt="user icon" />
         </div>
         我的好友
       </div>
-      {friends.map((friend) => (
-        <div className="function" key="friend.id">
-          <div className="circleImg">
-            <img src={friend.picture} alt="friend img" />
+      {friends.map(
+        (friend, index) =>
+          (index < 6 || showAllFriends) && (
+            <div className="function" key="friend.id">
+              <Link href={`/${friend.id}`}>
+                <div className="circleImg">
+                  <img src={friend.picture} alt="friend img" />
+                </div>
+                {friend.name}
+              </Link>
+            </div>
+          )
+      )}
+      {!showAllFriends && (
+        <div className="function" onClick={() => setShowAllFriend(true)}>
+          <div className="circleImg icon">
+            <img src="/images/hamburger.svg" alt="hamburger" />
           </div>
-          {friend.name}
+          查看全部
         </div>
-      ))}
+      )}
       <div className="info">
         關於我們 · 隱私權條款 · Cookie 條款 · © 2023 CanChu, Inc.
       </div>

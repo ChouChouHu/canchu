@@ -17,14 +17,24 @@ const NavCss = css`
     width: 113px;
   }
   .search {
+    position: relative;
+    display: flex;
+    align-items: center;
     margin-left: 23px;
+
+    img {
+      position: absolute;
+      width: 17px;
+      left: 13px;
+    }
     input {
       color: #566470;
       background: #f0f2f5;
       border: 1px solid #d9d9d9;
       border: 0;
-      padding: 12px 20px;
+      padding: 12px 20px 12px 35px;
       border-radius: 10px;
+      min-width: 270px;
     }
   }
 
@@ -55,6 +65,7 @@ function Nav() {
         <img className="logo" src="/images/logo.svg" alt="logo" />
       </Link>
       <div className="search">
+        <img src="/images/search.png" alt="search" />
         <input placeholder="搜尋" />
       </div>
       <div className="functions">

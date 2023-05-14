@@ -12,15 +12,14 @@ const FeedCss = css`
 
   .user {
     display: flex;
-    margin: 20px 25px;
-    margin-bottom: 10px;
+    margin: 20px 40px;
 
     .avatar {
       border-radius: 50%;
       border: 1px solid #d9d9d9;
-      width: 45px;
-      height: 45px;
-      margin-right: 10px;
+      width: 75px;
+      height: 75px;
+      margin-right: 15px;
       cursor: pointer;
     }
 
@@ -31,7 +30,7 @@ const FeedCss = css`
 
       .userName {
         font-weight: bold;
-        font-size: 16px;
+        font-size: 18px;
         cursor: pointer;
         margin-bottom: 5px;
 
@@ -43,6 +42,7 @@ const FeedCss = css`
       .timeStamp {
         color: #909090;
         cursor: pointer;
+        font-size: 14px;
 
         &:hover {
           text-decoration: underline;
@@ -53,14 +53,14 @@ const FeedCss = css`
 
   .feedText {
     font-size: 16px;
-    margin: 5px 25px;
-    min-height: 250px;
+    margin: 5px 40px;
+    min-height: 100px;
   }
 
   .functionList {
     position: relative;
     display: flex;
-    margin: 0px 25px;
+    margin: 0px 35px;
     border-top: 1px solid #d9d9d9;
     border-bottom: 1px solid #d9d9d9;
     padding: 8px 5px;
@@ -106,7 +106,7 @@ const FeedCss = css`
     display: flex;
     align-items: center;
     position: relative;
-    margin: 10px 25px;
+    margin: 10px 35px;
   }
 
   .whoLikes {
@@ -187,14 +187,27 @@ const FeedCss = css`
     text-align: center;
     width: 100%;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 `;
 
-function Feed({ name, createdAt, context, isLiked, likeCount, commentCount }) {
+function Feed({
+  picture,
+  name,
+  createdAt,
+  context,
+  isLiked,
+  likeCount,
+  commentCount
+}) {
   return (
     <div className={FeedCss}>
       <div className="user">
-        <div className="avatar" />
+        <div className="avatar circleImg">
+          <img src={picture} alt="avatar" />
+        </div>
         <div className="userData">
           <div className="userName">{name || "Error"}</div>
           <div className="timeStamp">{createdAt}</div>

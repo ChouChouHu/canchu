@@ -6,9 +6,6 @@ import { friends } from "../../mockData";
 const SidebarCss = css`
   position: relative;
   min-width: 370px;
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 20px;
   padding: 20px 25px;
   margin-right: 30px;
 
@@ -59,9 +56,9 @@ const SidebarCss = css`
 function Sidebar({user}) {
   const [showAllFriends, setShowAllFriend] = useState(false);
   return (
-    <div className={SidebarCss}>
+    <div className={`${SidebarCss} box`}>
       <div className="function">
-        <Link href={`/${user.id}`}>
+        <Link href={`/user/${user.id}`}>
           <div className="circleImg">
             <img src={user.picture} alt="userphoto" />
           </div>
@@ -83,7 +80,7 @@ function Sidebar({user}) {
         (friend, index) =>
           (index < 6 || showAllFriends) && (
             <div className="function" key="friend.id">
-              <Link href={`/${friend.id}`}>
+              <Link href={`/user/${friend.id}`}>
                 <div className="circleImg">
                   <img src={friend.picture} alt="friend img" />
                 </div>

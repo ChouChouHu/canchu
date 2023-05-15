@@ -1,8 +1,10 @@
 import { css } from "@emotion/css";
 
-const ButtonCss = css`
-  display: inline-block;
+const ButtonCss = (isBlock, bold) => css`
+  display: ${isBlock ? 'block' : 'inline-block'};
+  font-weight: ${bold ? 'bold' : 'normal'};
   background: var(--main-color);
+  text-align: center;
   color: white;
   padding: 12px 36px;
   border-radius: 6px;
@@ -10,9 +12,9 @@ const ButtonCss = css`
   cursor: pointer;
 `;
 
-function Button({ children, onClick }) {
+function Button({ children, onClick, isBlock, bold }) {
   return (
-    <div className={ButtonCss} onClick={() => onClick()}>
+    <div className={ButtonCss(isBlock, bold)} onClick={() => onClick()}>
       {children}
     </div>
   );

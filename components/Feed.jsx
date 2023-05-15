@@ -1,12 +1,10 @@
 import { css } from "@emotion/css";
+import Link from "next/link";
 import { user } from "../mockData";
 
 const FeedCss = css`
   max-width: 80vw;
   min-width: 700px;
-  border: 1px solid rgba(211, 211, 211, 0.56);
-  border-radius: 20px;
-  background: white;
   margin: 0px 0px 23px 0px;
   font-size: 13px;
 
@@ -27,6 +25,14 @@ const FeedCss = css`
       display: flex;
       flex-direction: column;
       justify-content: center;
+
+      a {
+        color: black;
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
 
       .userName {
         font-weight: bold;
@@ -194,6 +200,7 @@ const FeedCss = css`
 `;
 
 function Feed({
+  id,
   picture,
   name,
   createdAt,
@@ -203,14 +210,16 @@ function Feed({
   commentCount
 }) {
   return (
-    <div className={FeedCss}>
+    <div className={`${FeedCss} box`}>
       <div className="user">
-        <div className="avatar circleImg">
+        <Link href={`/user/${user.id}`} className="avatar circleImg">
           <img src={picture} alt="avatar" />
-        </div>
+        </Link>
         <div className="userData">
-          <div className="userName">{name || "Error"}</div>
-          <div className="timeStamp">{createdAt}</div>
+          <Link href={`/user/${user.id}`} className="userName">
+            {name || "Error"}
+          </Link>
+          <Link href={`/posts/${id}`} className="timeStamp">{createdAt}</Link>
         </div>
       </div>
       <div className="feedText">{context}</div>

@@ -1,3 +1,26 @@
+export const post = {
+  id: 1,
+  created_at: "2023-04-09 22:21:48",
+  context: "動態動態動態動態動態動態動態動態",
+  is_liked: true,
+  like_count: 327,
+  comment_count: 68,
+  picture: "https://i.imgur.com/VTC742A.png",
+  name: "PJ",
+  comments: [
+    {
+      id: 1,
+      created_at: "2023-04-10 23:21:10",
+      content: "評論評論評論評論評論評論",
+      user: {
+        id: "1",
+        name: "PJ",
+        picture: ""
+      }
+    }
+  ]
+};
+
 export const posts = [
   {
     id: 1,

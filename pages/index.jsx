@@ -34,6 +34,7 @@ function Home() {
               {posts.map((post) => (
                 <Feed
                   key={post.id}
+                  id={post.id}
                   picture={post.picture}
                   name={post.name}
                   createdAt={post.created_at}

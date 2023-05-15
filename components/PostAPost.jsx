@@ -2,9 +2,6 @@ import { css } from "@emotion/css";
 import Button from "./Layout/Button";
 
 const PostAPostCss = css`
-  border: 1px solid rgba(211, 211, 211, 0.56);
-  border-radius: 20px;
-  background: white;
   margin: 0px 0px 23px 0px;
   padding: 20px;
   display: flex;
@@ -37,7 +34,7 @@ const PostAPostCss = css`
 
 function PostAPost({ user }) {
   return (
-    <div className={PostAPostCss}>
+    <div className={`${PostAPostCss} box`}>
       <div className="avatar circleImg">
         <img src={user.picture} alt="userphoto" />
       </div>

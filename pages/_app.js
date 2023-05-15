@@ -3,8 +3,8 @@
 import emotionReset from "emotion-reset";
 import { Global, css } from "@emotion/react";
 
- // 這裡定義你的全局變量
-export const mainColor = '#5458F7';
+// 這裡定義你的全局變量
+export const mainColor = "#5458F7";
 
 // This default export is required in a new `pages/_app.js` file.
 export default function MyApp({ Component, pageProps }) {
@@ -15,8 +15,14 @@ export default function MyApp({ Component, pageProps }) {
           ${emotionReset}
 
           :root {
-             // 將全局變量分配給 CSS 變量
+            // 將全局變量分配給 CSS 變量
             --main-color: ${mainColor};
+          }
+
+          .box {
+            border: 1px solid rgba(211, 211, 211, 0.56);
+            border-radius: 20px;
+            background: white;
           }
 
           *,

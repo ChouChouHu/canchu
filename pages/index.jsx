@@ -1,10 +1,12 @@
 import Head from "next/head";
 import { css } from "@emotion/css";
 import Feed from "../components/Feed";
-import { posts, user } from "../mockData";
 import Layout from "../components/Layout";
 import Sidebar from "../components/Home/Sidebar";
 import PostAPost from "../components/PostAPost";
+import usePosts from "../hooks/post/usePosts";
+import useMyProfile from "../hooks/user/useMyProfile";
+import Posts from "../components/Posts";
 
 const HomeCss = css`
   .container {
@@ -20,6 +22,8 @@ const HomeCss = css`
 `;
 
 function Home() {
+  const { user } = useMyProfile();
+  // console.log(posts)
   return (
     <>
       <Head>
@@ -31,19 +35,7 @@ function Home() {
             <Sidebar user={user} />
             <div className="posts">
               <PostAPost user={user} />
-              {posts.map((post) => (
-                <Feed
-                  key={post.id}
-                  id={post.id}
-                  picture={post.picture}
-                  name={post.name}
-                  createdAt={post.created_at}
-                  context={post.context}
-                  isLiked={post.is_liked}
-                  likeCount={post.like_count}
-                  commentCount={post.comment_count}
-                />
-              ))}
+              {user && <Posts />}
             </div>
           </div>
         </div>

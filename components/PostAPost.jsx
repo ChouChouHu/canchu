@@ -1,5 +1,7 @@
 import { css } from "@emotion/css";
+import { useState } from "react";
 import Button from "./Layout/Button";
+import usePostAPost from "../hooks/post/usePostAPost";
 
 const PostAPostCss = css`
   margin: 0px 0px 23px 0px;
@@ -33,14 +35,20 @@ const PostAPostCss = css`
 `;
 
 function PostAPost({ user }) {
+  const [postText, setPostText] = useState("");
+  const { postAPost } = usePostAPost();
   return (
     <div className={`${PostAPostCss} box`}>
       <div className="avatar circleImg">
-        <img src={user.picture} alt="userphoto" />
+        {user?.picture ? <img src={user?.picture} alt="userphoto" /> : null}
       </div>
       <div className="form">
-        <textarea placeholder="說點什麼嗎？" />
-        <Button onClick={() => alert("post!")}>發佈貼文</Button>
+        <textarea
+          placeholder="說點什麼嗎？"
+          value={postText}
+          onChange={(e) => setPostText(e.target.value)}
+        />
+        <Button onClick={() => postAPost(postText)}>發佈貼文</Button>
       </div>
     </div>
   );

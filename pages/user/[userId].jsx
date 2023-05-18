@@ -1,11 +1,19 @@
 import { css } from "@emotion/css";
+import { useRouter } from "next/router";
+import { useEffect, useRef, useState } from "react";
 import Layout from "../../components/Layout";
-import { posts, user } from "../../mockData";
 import PostAPost from "../../components/PostAPost";
 import Button from "../../components/Layout/Button";
-import Feed from "../../components/Feed";
+// import Feed from "../../components/Feed";
+import useUserProfile from "../../hooks/user/useUserProfile";
+// import usePosts from "../../hooks/post/usePosts";
+import useMyProfile from "../../hooks/user/useMyProfile";
+import useSendFriendRequest from "../../hooks/friends/useSendFriendRequest";
+import Posts from "../../components/Posts";
+import useAgreeFriend from "../../hooks/friends/useAgreeFriend";
+import useUploadAvatar from "../../hooks/user/useUploadAvatar";
 
-const TemplateCss = css`
+const UserPageCss = css`
   .profile {
     position: relative;
     background: white;
@@ -17,10 +25,37 @@ const TemplateCss = css`
       align-items: center;
       padding-bottom: 65px;
       .avatar {
+        position: relative;
         width: 180px;
         height: 180px;
         margin-left: 20px;
         margin-right: 45px;
+        overflow: hidden;
+      }
+      .myAvatar {
+        cursor: pointer;
+        .editBtn {
+          display: none;
+          background: rgba(0, 0, 0, 0.3);
+          width: 100%;
+          height: 100%;
+          justify-content: center;
+          align-items: center;
+          input {
+            background: red;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+          }
+        }
+        &:hover {
+          .editBtn {
+            position: absolute;
+            display: flex;
+          }
+        }
       }
       .nameAndFriends {
         h1 {
@@ -69,13 +104,21 @@ const TemplateCss = css`
           color: #525252;
           font-size: 18px;
           line-height: 24px;
-          margin-bottom: 6px;
+          margin-bottom: 12px;
           margin-top: 10px;
           font-weight: bold;
         }
         b {
           display: block;
-          margin-bottom: 4px;
+          margin-bottom: 8px;
+        }
+        .icon {
+          width: 15px;
+          height: 15px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0 10px;
         }
         .intro {
           color: var(--main-color);
@@ -88,18 +131,59 @@ const TemplateCss = css`
   }
 `;
 
-function Template() {
+function UserPage() {
+  // profile
+  const [userId, setUserId] = useState();
+  const router = useRouter();
+  useEffect(() => {
+    if (router.query.userId) setUserId(router.query.userId);
+  }, [router.query.userId]);
+  const { user } = useUserProfile(userId);
+
+  // authorize
+  const { user: myProfile } = useMyProfile();
+  const isMyself = () => myProfile && user && myProfile.id === user.id;
+  const { sendFriendRequest } = useSendFriendRequest();
+  const { agreeFriend } = useAgreeFriend();
+
+  // upload avatar
+  const { uploadAvatar } = useUploadAvatar();
+  const fileInputRef = useRef(null);
+
+  const handleFileChange = (e) => {
+    if (e.target.files[0]) {
+      uploadAvatar(e.target.files[0]);
+      // if (response) {
+      //   console.log("圖片上傳成功:", response);
+      // }
+    }
+  };
+
   return (
     <Layout>
-      <div className={TemplateCss}>
+      <div className={UserPageCss}>
         <div className="profile">
           <div className="info">
-            <div className="avatar circleImg">
-              <img src={user.picture} alt="avatar" />
+            <div className={`avatar circleImg${isMyself() ? " myAvatar" : ""}`}>
+              {user?.picture ? (
+                <img src={user?.picture} alt="userphoto" />
+              ) : null}
+              {isMyself() && (
+                <div className="editBtn">
+                  {" "}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    ref={fileInputRef}
+                  />
+                  編輯
+                </div>
+              )}
             </div>
             <div className="nameAndFriends">
-              <h1>{user.name}</h1>
-              <i>{user.friend_count} 位朋友</i>
+              <h1>{user?.name}</h1>
+              <i>{user?.friend_count} 位朋友</i>
             </div>
           </div>
           <div className="tabs">
@@ -110,41 +194,62 @@ function Template() {
         </div>
         <div className="content">
           <div className="sidebar box">
-            <Button isBlock bold>
-              編輯個人檔案
-            </Button>
+            {isMyself() && (
+              <Button isBlock bold>
+                編輯個人檔案
+              </Button>
+            )}
+            {!isMyself() && user && !user.friendship && (
+              <Button isBlock bold onClick={() => sendFriendRequest(user.id)}>
+                邀請成為好友
+              </Button>
+            )}
+            {!isMyself() && user && user.friendship?.status === "requested" && (
+              <Button isBlock bold grey>
+                已送出邀請
+              </Button>
+            )}
+            {!isMyself() && user && user.friendship?.status === "pending" && (
+              <Button
+                isBlock
+                bold
+                onClick={() => agreeFriend(user.friendship.id)}
+              >
+                答應好友邀請
+              </Button>
+            )}
             <div className="info">
               <div className="intro">
                 <h3>自我介紹</h3>
-                <b className="university">就讀的大學</b>
-                <b className="city">我生活的城市</b>
+                {user?.introduction}
+                {/* <b className="university">
+                  <div className="icon">
+                    <img src="/images/education.svg" alt="education" />
+                  </div>
+                  就讀的大學
+                </b>
+                <b className="city">
+                  <div className="icon">
+                    <img src="/images/location.svg" alt="location" />
+                  </div>
+                  我生活的城市
+                </b> */}
               </div>
-              <div className="jobs">
+              {/* <div className="jobs">
                 <h3>職業經歷</h3>
                 <b>曾在 AppWorks School 擔任學員</b>
                 <b>曾在 Poo Panda 擔任外送員</b>
-              </div>
+              </div> */}
               <div className="interesting">
                 <h3>興趣</h3>
-                寫程式  ·  吸貓  ·  藝術  ·  寫作  ·  靈性
+                {/* 寫程式 · 吸貓 · 藝術 · 寫作 · 靈性 */}
+                {user?.tags}
               </div>
             </div>
           </div>
           <div className="posts">
-            <PostAPost user={user} />
-            {posts.map((post) => (
-              <Feed
-                key={post.id}
-                id={post.id}
-                picture={post.picture}
-                name={post.name}
-                createdAt={post.created_at}
-                context={post.context}
-                isLiked={post.is_liked}
-                likeCount={post.like_count}
-                commentCount={post.comment_count}
-              />
-            ))}
+            {isMyself() && <PostAPost user={myProfile} />}
+            {user && <Posts userId={user.id} />}
           </div>
         </div>
       </div>
@@ -152,4 +257,4 @@ function Template() {
   );
 }
 
-export default Template;
+export default UserPage;

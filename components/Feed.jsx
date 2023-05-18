@@ -1,6 +1,5 @@
 import { css } from "@emotion/css";
 import Link from "next/link";
-import { user } from "../mockData";
 
 const FeedCss = css`
   max-width: 80vw;
@@ -169,6 +168,32 @@ const FeedCss = css`
   .commentArea {
     border-top: 1px solid #d9d9d9;
     padding: 20px 40px;
+
+    .comment {
+      display: flex;
+      margin-bottom: 25px;
+      .circleImg {
+        min-width: 32px;
+        width: 32px;
+        height: 32px;
+        margin-right: 10px;
+      }
+      .content {
+        background: rgba(217, 217, 217, 0.32);
+        border-radius: 20px;
+        padding: 14px 18px 20px 18px;
+        font-size: 16px;
+        line-height: 24px;
+        b {
+          font-weight: bold;
+          margin-bottom: 5px;
+        }
+      }
+      .info {
+        margin-top: 8px;
+        /* margin-left: 2px; */
+      }
+    }
   }
 
   .leaveComment {
@@ -178,6 +203,7 @@ const FeedCss = css`
   .myAvatar {
     display: block;
     min-width: 50px;
+    width: 50px;
     height: 50px;
     border-radius: 50%;
     background-color: #a4c3d3;
@@ -207,19 +233,24 @@ function Feed({
   context,
   isLiked,
   likeCount,
-  commentCount
+  commentCount,
+  comments,
+  user
 }) {
+  // console.log(user)
   return (
     <div className={`${FeedCss} box`}>
       <div className="user">
-        <Link href={`/user/${user.id}`} className="avatar circleImg">
-          <img src={picture} alt="avatar" />
+        <Link href={`/user/${user?.id}`} className="avatar circleImg">
+          {picture && <img src={user?.picture} alt="avatar" />}
         </Link>
         <div className="userData">
-          <Link href={`/user/${user.id}`} className="userName">
-            {name || "Error"}
+          <Link href={`/user/${user?.id}`} className="userName">
+            {name || "等 PJ"}
           </Link>
-          <Link href={`/posts/${id}`} className="timeStamp">{createdAt}</Link>
+          <Link href={`/posts/${id}`} className="timeStamp">
+            {createdAt}
+          </Link>
         </div>
       </div>
       <div className="feedText">{context}</div>
@@ -247,9 +278,26 @@ function Feed({
         </div>
       </div>
       <div className="commentArea">
+        {comments?.map((comment) => (
+          <div className="comment">
+            <div className="circleImg">
+              <img src={comment.user.picture} alt="user avatar" />
+            </div>
+            <div>
+              <div className="content">
+                <b>{comment.user.name}</b>
+                <p>{comment.content}</p>
+              </div>
+              <div className="info">
+                {/* <div>{comment.like_count} 個人喜歡</div> */}
+                <div>{comment.created_at}</div>
+              </div>
+            </div>
+          </div>
+        ))}
         <div className="leaveComment">
           <div className="myAvatar circleImg">
-            <img src={user.picture} alt="my avatar" />
+            {user?.picture && <img src={user.picture} alt="my avatar" />}
           </div>
           <div className="commentBtn">留個言吧</div>
         </div>

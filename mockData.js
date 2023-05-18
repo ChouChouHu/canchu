@@ -11,11 +11,22 @@ export const post = {
     {
       id: 1,
       created_at: "2023-04-10 23:21:10",
-      content: "評論評論評論評論評論評論",
+      content:
+        "朋友的留言，朋友的留言。朋友的留言，朋友的留言。朋友的留言，朋友的留言。朋友的留言，朋友的留言。朋友的留言，朋友的留言。",
       user: {
         id: "1",
         name: "PJ",
-        picture: ""
+        picture: "https://i.imgur.com/VTC742A.png"
+      }
+    },
+    {
+      id: 2,
+      created_at: "2023-04-10 23:21:10",
+      content: "朋友的留言",
+      user: {
+        id: "1",
+        name: "Mary Wang",
+        picture: "https://i.imgur.com/xfA6pxv.jpeg"
       }
     }
   ]
@@ -131,3 +142,22 @@ export const user = {
   },
   tags: "打籃球,打壘球,打東東"
 };
+
+export const events = [
+  {
+    id: 1,
+    type: "friend_request",
+    is_read: false,
+    image: "https://schoolvoyage.ga/images/123498.png",
+    created_at: "2023-03-23 23:10:21",
+    summary: "王小明邀請你成為好友"
+  },
+  {
+    id: 2,
+    type: "friend_request",
+    is_read: true,
+    image: "https://schoolvoyage.ga/images/123498.png",
+    created_at: "2023-03-23 23:10:21",
+    summary: "王小明邀請你成為好友"
+  }
+];

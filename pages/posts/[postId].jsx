@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import Feed from "../../components/Feed";
 import Layout from "../../components/Layout";
 import usePost from "../../hooks/post/usePost";
-import useMyProfile from "../../hooks/user/useMyProfile";
 
 const PostPageCss = css`
   position: relative;
@@ -16,7 +15,6 @@ function PostPage() {
   const router = useRouter();
   const { postId } = router.query;
   const { post } = usePost(postId);
-  const { user } = useMyProfile();
   return (
     <Layout>
       <div className={PostPageCss}>
@@ -24,6 +22,7 @@ function PostPage() {
           <Feed
             key={post.id}
             id={post.id}
+            userId={post.user_id}
             picture={post.picture}
             name={post.name}
             createdAt={post.created_at}
@@ -32,10 +31,10 @@ function PostPage() {
             likeCount={post.like_count}
             commentCount={post.comment_count}
             comments={post.comments}
-            user={user}
+            showComments
           />
         ) : (
-          "無此貼文"
+          ""
         )}
       </div>
     </Layout>

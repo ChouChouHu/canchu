@@ -1,9 +1,9 @@
 import { css } from "@emotion/css";
 import { useState } from "react";
 import Button from "./Layout/Button";
-import usePostAPost from "../hooks/post/usePostAPost";
+import useUploadAPost from "../hooks/post/useUploadAPost";
 
-const PostAPostCss = css`
+const UploadAPostCss = css`
   margin: 0px 0px 23px 0px;
   padding: 20px;
   display: flex;
@@ -22,23 +22,17 @@ const PostAPostCss = css`
     flex-direction: column;
     align-items: flex-end;
     textarea {
-      width: 100%;
-      background: #f0f2f5;
-      border: 1px solid #d9d9d9;
-      border-radius: 10px;
-      padding: 15px;
       font-size: 18px;
       min-height: 100px;
-      margin-bottom: 15px;
     }
   }
 `;
 
-function PostAPost({ user }) {
+function UploadAPost({ user }) {
   const [postText, setPostText] = useState("");
-  const { postAPost } = usePostAPost();
+  const { uploadAPost } = useUploadAPost();
   return (
-    <div className={`${PostAPostCss} box`}>
+    <div className={`${UploadAPostCss} box`}>
       <div className="avatar circleImg">
         {user?.picture ? <img src={user?.picture} alt="userphoto" /> : null}
       </div>
@@ -48,10 +42,10 @@ function PostAPost({ user }) {
           value={postText}
           onChange={(e) => setPostText(e.target.value)}
         />
-        <Button onClick={() => postAPost(postText)}>發佈貼文</Button>
+        <Button onClick={() => uploadAPost(postText)}>發佈貼文</Button>
       </div>
     </div>
   );
 }
 
-export default PostAPost;
+export default UploadAPost;

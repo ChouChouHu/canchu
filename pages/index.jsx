@@ -1,10 +1,8 @@
 import Head from "next/head";
 import { css } from "@emotion/css";
-import Feed from "../components/Feed";
 import Layout from "../components/Layout";
 import Sidebar from "../components/Home/Sidebar";
-import PostAPost from "../components/PostAPost";
-import usePosts from "../hooks/post/usePosts";
+import UploadAPost from "../components/UploadAPost";
 import useMyProfile from "../hooks/user/useMyProfile";
 import Posts from "../components/Posts";
 
@@ -34,7 +32,7 @@ function Home() {
           <div className="container">
             <Sidebar user={user} />
             <div className="posts">
-              <PostAPost user={user} />
+              <UploadAPost user={user} />
               {user && <Posts />}
             </div>
           </div>

@@ -5,6 +5,7 @@ const LayoutCss = css`
   background: #f3f3f3;
   padding-bottom: 200px;
   min-height: 100vh;
+  min-width: 1326px; // temp
 `;
 
 function Layout({ children }) {

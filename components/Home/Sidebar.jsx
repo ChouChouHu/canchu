@@ -5,7 +5,7 @@ import useFriends from "../../hooks/friends/useFriends";
 import usePendingFriends from "../../hooks/friends/usePendingFriends";
 import Button from "../Layout/Button";
 import useAgreeFriend from "../../hooks/friends/useAgreeFriend";
-import useDeleteFriendRequest from "../../hooks/friends/useDeleteFriendRequest";
+import useDeleteFriend from "../../hooks/friends/useDeleteFriend";
 
 const SidebarCss = css`
   position: relative;
@@ -69,7 +69,7 @@ function Sidebar({ user }) {
   const { pendingFriends } = usePendingFriends();
   const { friends } = useFriends();
   const { agreeFriend } = useAgreeFriend();
-  const { deleteFriendRequest } = useDeleteFriendRequest();
+  const { deleteFriend } = useDeleteFriend();
   return (
     <div className={`${SidebarCss} box`}>
       <div className="function">
@@ -111,7 +111,7 @@ function Sidebar({ user }) {
             <Button
               small
               grey
-              onClick={() => deleteFriendRequest(pendingFriend.friendship.id)}
+              onClick={() => deleteFriend(pendingFriend.friendship.id, 'not friend yet')}
             >
               取消
             </Button>

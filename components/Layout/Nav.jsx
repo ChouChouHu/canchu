@@ -10,6 +10,7 @@ const NavCss = css`
   position: fixed;
   width: 100vw;
   height: 100px;
+  min-width: 1326px; // temp
   background: white;
   border-bottom: 1px solid #d9d9d9;
   padding: 25px 150px;
@@ -232,7 +233,8 @@ function Nav() {
       </Link>
       <div className="search">
         <div className="searchInputContainer">
-          <img className="searchImg" src="/images/search.png" alt="search" />
+          <img className="searchImg" src="/images/search.png" alt="search" /> 
+          {/* temp */}
           <input
             placeholder="搜尋"
             onChange={(e) => setSearchKeyword(e.target.value)}

@@ -25,6 +25,16 @@ export default function MyApp({ Component, pageProps }) {
             background: white;
           }
 
+          textarea {
+            width: 100%;
+            background: #f0f2f5;
+            border: 1px solid #d9d9d9;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            resize: none;
+          }
+
           *,
           *::after,
           *::before {

@@ -1,23 +1,33 @@
+/* eslint-disable no-nested-ternary */
 import { css } from "@emotion/css";
 
-const ButtonCss = (isBlock, bold, grey, small) => css`
+const ButtonCss = (isBlock, forbidden, bold, grey, small) => css`
   display: ${isBlock ? "block" : "inline-block"};
   ${isBlock ? "width: 100%;" : ""}
   font-weight: ${bold ? "bold" : "normal"};
-  background: ${grey ? "#D0D0D0" : "var(--main-color)"};
+  background: ${grey ? "#b4b4b4" : forbidden ? "#D0D0D0" : "var(--main-color)"};
   text-align: center;
   color: white;
-  padding: ${small ? "8px 20px" : "12px 36px"};
+  padding: ${small ? "8px 16px" : "12px 36px"};
   border-radius: 6px;
   font-size: 16px;
-  cursor: pointer;
-  /* cursor: ${grey ? "auto" : "pointer"}; */
+  cursor: ${forbidden ? "not-allowed" : "pointer"};
   border: 0;
 `;
 
-function Button({ children, onClick, isBlock, bold, type, grey, small }) {
+function Button({
+  children,
+  onClick,
+  // below is for CSS
+  isBlock,
+  forbidden,
+  bold,
+  type,
+  grey,
+  small
+}) {
   const handleClick = (e) => {
-    if (type !== 'submit') {
+    if (type !== "submit") {
       e.preventDefault();
     }
     if (onClick) {
@@ -26,7 +36,7 @@ function Button({ children, onClick, isBlock, bold, type, grey, small }) {
   };
   return (
     <button
-      className={ButtonCss(isBlock, bold, grey, small)}
+      className={ButtonCss(isBlock, forbidden, bold, grey, small)}
       onClick={handleClick}
       type={type}
     >

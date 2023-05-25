@@ -2,31 +2,27 @@ import axios from "axios";
 import { parseCookies } from "nookies";
 import { useState } from "react";
 
-const usePostAPost = () => {
+const useLikeAPost = () => {
   const [error, setError] = useState(null);
   const cookies = parseCookies();
   const { accessToken } = cookies;
-  const postAPost = async (context) => {
+  const likeAPost = async (id) => {
     try {
       await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/posts`,
-        {
-          context
-        },
+        `${process.env.NEXT_PUBLIC_API_URL}/posts/${id}/like`,
+        {},
         {
           headers: {
             Authorization: `Bearer ${accessToken}`
           }
         }
       );
-      await alert("發文成功！");
-      window.location.reload();
     } catch (err) {
-      setError(err.response?.data?.message || "登入失敗");
+      setError(err.response?.data?.message || "點愛心失敗");
     }
   };
 
-  return { postAPost, error };
+  return { likeAPost, error };
 };
 
-export default usePostAPost;
+export default useLikeAPost;

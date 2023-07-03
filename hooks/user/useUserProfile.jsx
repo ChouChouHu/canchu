@@ -21,8 +21,7 @@ const useUserProfile = (userId) => {
         );
         setUser(response.data.data.user);
       } catch (err) {
-        // setError(err.response.data.message || "取得用戶資料失敗");
-        console.log(err.response.data.message || "取得用戶資料失敗")
+        console.log(err.response.data || "取得用戶資料失敗")
       }
     };
 

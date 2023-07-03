@@ -5,7 +5,7 @@ const useLogout = () => {
     destroyCookie(null, 'accessToken', {
       path: '/'
     });
-    console.log("logout")
+    // console.log("logout")
     window.location.href = "/login"
   };
 

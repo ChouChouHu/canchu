@@ -21,7 +21,7 @@ const useFriends = () => {
         );
         setFriends(response.data.data.users);
       } catch (err) {
-        console.log(err.response.data.message || "取得用戶資料失敗");
+        console.log(err.response.data || "取得用戶資料失敗");
       }
     };
 

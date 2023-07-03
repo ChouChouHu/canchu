@@ -5,6 +5,7 @@ import Sidebar from "../components/Home/Sidebar";
 import UploadAPost from "../components/UploadAPost";
 import useMyProfile from "../hooks/user/useMyProfile";
 import Posts from "../components/Posts";
+import breakpoints from "../shared/breakpoints";
 
 const HomeCss = css`
   .container {
@@ -13,8 +14,17 @@ const HomeCss = css`
     align-items: flex-start;
     padding-top: 125px;
 
-    .posts {
-      min-width: 50%;
+    .feedsWall {
+      width: 55vw;
+      min-width: 500px;
+    }
+  }
+
+  @media ${breakpoints.tablet} {
+    .container {
+      .feedsWall {
+        width: 85%;
+      }
     }
   }
 `;
@@ -31,7 +41,7 @@ function Home() {
         <div className={HomeCss}>
           <div className="container">
             <Sidebar user={user} />
-            <div className="posts">
+            <div className="feedsWall">
               <UploadAPost user={user} />
               {user && <Posts />}
             </div>

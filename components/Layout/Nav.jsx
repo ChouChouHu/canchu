@@ -5,12 +5,113 @@ import useLogout from "../../hooks/useLogOut";
 import useNotifications from "../../hooks/useNotifications";
 import useSearchUsers from "../../hooks/user/useSearchUsers";
 import useMyProfile from "../../hooks/user/useMyProfile";
+import breakpoints from "../../shared/breakpoints";
+
+function Nav() {
+  const { logOut } = useLogout();
+  const { user } = useMyProfile();
+  const { events } = useNotifications();
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const searchUsers = useSearchUsers(searchKeyword);
+  const [isSearchFocused, setSearchIsFocused] = useState(false);
+  return (
+    <div className={NavCss}>
+      <Link href="/">
+        <img className="logo" src="/images/logo.svg" alt="logo" />
+      </Link>
+      <div className="search">
+        <div className="searchInputContainer">
+          <img className="searchImg" src="/images/search.png" alt="search" />
+          {/* temp */}
+          <input
+            placeholder="搜尋"
+            onChange={(e) => setSearchKeyword(e.target.value)}
+            onFocus={() => setSearchIsFocused(true)}
+            onBlur={() =>
+              setTimeout(() => {
+                setSearchIsFocused(false);
+              }, 200)
+            }
+          />
+        </div>
+        {isSearchFocused && searchUsers.length !== 0 && (
+          <div className="searchList box">
+            {searchUsers?.map((searchUser) => (
+              <Link href={`/user/${searchUser.id}`} className="user">
+                <div className="circleImg">
+                  {searchUser.picture && (
+                    <img src={searchUser.picture} alt="user avatar" />
+                  )}
+                </div>
+                {searchUser.name}
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
+      <div className="functions">
+        <div className="notificationBtn hoverBtn">
+          <div className="circleImg">
+            <img src="/images/notification.svg" alt="notification" />
+          </div>
+          <div className="hoverContainer">
+            <div className="hoverArea">
+              <div className="notifications box">
+                <div className="notificationTitle">
+                  <div className="circleImg">
+                    <img
+                      src="/images/notification_colored.svg"
+                      alt="notification"
+                    />
+                  </div>
+                  我的通知
+                </div>
+                {events?.map((event) => (
+                  <div className="notification">
+                    <p>{event.summary}</p>
+                    <b>{event.created_at}</b>
+                    {/* <div className="eventFunction">
+                      <div className="check">v</div>
+                      <div className="cancel">x</div>
+                    </div> */}
+                  </div>
+                ))}
+                {events?.length >= 6 && (
+                  <div className="showMoreNotification">
+                    <b>查看全部通知</b>
+                  </div>
+                )}
+                {events && events.legnth === 0 && "沒有任何通知"}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="avatarBtn hoverBtn">
+          <div className="circleImg">
+            {user?.picture ? <img src={user?.picture} alt="userphoto" /> : null}
+          </div>
+          <div className="hoverContainer">
+            <div className="hoverArea">
+              <div className="box">
+                <Link href={`/user/${user?.id}`} className="btn">
+                  查看個人檔案
+                </Link>
+                <div className="btn" onClick={() => logOut()}>
+                  登出
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 const NavCss = css`
   position: fixed;
   width: 100vw;
   height: 100px;
-  min-width: 1326px; // temp
   background: white;
   border-bottom: 1px solid #d9d9d9;
   padding: 25px 150px;
@@ -141,10 +242,14 @@ const NavCss = css`
           }
         }
         .notification {
-          padding: 15px 0px;
-          margin: 0 25px;
+          padding: 15px 25px;
+          /* margin: 0 25px; */
           border-bottom: 1px solid #d1cace;
           line-height: 24px;
+
+          &:hover {
+            background: #eee;
+          }
 
           /* .eventFunction {
             position: absolute;
@@ -203,121 +308,42 @@ const NavCss = css`
         width: 150px;
         display: flex;
         flex-direction: column;
+        overflow: hidden;
       }
       .btn {
-        padding: 15px 0px;
-        margin: 0 25px;
+        padding: 15px 25px;
+        /* margin: 0; */
         border-bottom: 1px solid #d1cace;
         line-height: 24px;
         color: black;
         text-decoration: none;
+
+        &:hover {
+          background: #eee;
+          /* border-color: #eee; */
+        }
       }
       .btn:last-child {
         border: 0;
       }
     }
   }
-`;
 
-function Nav() {
-  const { logOut } = useLogout();
-  const { user } = useMyProfile();
-  const { events } = useNotifications();
-  const [searchKeyword, setSearchKeyword] = useState("");
-  const searchUsers = useSearchUsers(searchKeyword);
-  const [isSearchFocused, setSearchIsFocused] = useState(false);
-  return (
-    <div className={NavCss}>
-      <Link href="/">
-        <img className="logo" src="/images/logo.svg" alt="logo" />
-      </Link>
-      <div className="search">
-        <div className="searchInputContainer">
-          <img className="searchImg" src="/images/search.png" alt="search" /> 
-          {/* temp */}
-          <input
-            placeholder="搜尋"
-            onChange={(e) => setSearchKeyword(e.target.value)}
-            onFocus={() => setSearchIsFocused(true)}
-            onBlur={() =>
-              setTimeout(() => {
-                setSearchIsFocused(false);
-              }, 200)
-            }
-          />
-        </div>
-        {isSearchFocused && searchUsers.length !== 0 && (
-          <div className="searchList box">
-            {searchUsers?.map((searchUser) => (
-              <Link href={`/user/${searchUser.id}`} className="user">
-                <div className="circleImg">
-                  {searchUser.picture && (
-                    <img src={searchUser.picture} alt="user avatar" />
-                  )}
-                </div>
-                {searchUser.name}
-              </Link>
-            ))}
-          </div>
-        )}
-      </div>
-      <div className="functions">
-        <div className="notificationBtn hoverBtn">
-          <div className="circleImg">
-            <img src="/images/notification.svg" alt="notification" />
-          </div>
-          <div className="hoverContainer">
-            <div className="hoverArea">
-              <div className="notifications box">
-                <div className="notificationTitle">
-                  <div className="circleImg">
-                    <img
-                      src="/images/notification_colored.svg"
-                      alt="notification"
-                    />
-                  </div>
-                  我的通知
-                </div>
-                {events?.map((event) => (
-                  <div className="notification">
-                    <p>{event.summary}</p>
-                    <b>{event.created_at}</b>
-                    {/* <div className="eventFunction">
-                      <div className="check">v</div>
-                      <div className="cancel">x</div>
-                    </div> */}
-                  </div>
-                ))}
-                {events?.length >= 6 && (
-                  <div className="showMoreNotification">
-                    <b>查看全部通知</b>
-                  </div>
-                )}
-                {events && events.legnth === 0 && "沒有任何通知"}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="avatarBtn hoverBtn">
-          <div className="circleImg">
-            {user?.picture ? <img src={user?.picture} alt="userphoto" /> : null}
-          </div>
-          <div className="hoverContainer">
-            <div className="hoverArea">
-              <div className="box">
-                <Link href={`/user/${user?.id}`} className="btn">
-                  查看個人檔案
-                </Link>
-                <div className="btn" onClick={() => logOut()}>
-                  登出
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
+  @media ${breakpoints.tablet} {
+    padding: 25px 50px;
+
+    .functions {
+      right: 50px;
+    }
+
+    .search {
+      .searchInputContainer {
+        input {
+          min-width: 220px;
+        }
+      }
+    }
+  }
+`;
 
 export default Nav;

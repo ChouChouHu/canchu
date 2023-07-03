@@ -6,63 +6,7 @@ import usePendingFriends from "../../hooks/friends/usePendingFriends";
 import Button from "../Layout/Button";
 import useAgreeFriend from "../../hooks/friends/useAgreeFriend";
 import useDeleteFriend from "../../hooks/friends/useDeleteFriend";
-
-const SidebarCss = css`
-  position: relative;
-  min-width: 370px;
-  padding: 20px 25px;
-  margin-right: 30px;
-
-  .function {
-    display: flex;
-    align-items: center;
-    height: 40px;
-    font-size: 18px;
-    font-weight: bold;
-    margin: 8px 0;
-    cursor: pointer;
-    a {
-      display: flex;
-      align-items: center;
-      color: black;
-      text-decoration: none;
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-    .accessBtn {
-      position: absolute;
-      right: 25px;
-      button {
-        margin-left: 6px;
-      }
-    }
-    .circleImg {
-      width: 40px;
-      height: 40px;
-      margin-right: 15px;
-    }
-    .icon {
-      background: transparent;
-      img {
-        object-fit: none;
-      }
-    }
-  }
-  .functionTitle {
-    color: #767676;
-    cursor: auto;
-  }
-  .info {
-    position: absolute;
-    transform: translateY(40px);
-    width: 100%;
-    left: 0;
-    padding: 0 25px; // same to sidebar
-    line-height: 24px;
-  }
-`;
+import breakpoints from "../../shared/breakpoints";
 
 function Sidebar({ user }) {
   const [showAllFriends, setShowAllFriend] = useState(false);
@@ -147,5 +91,67 @@ function Sidebar({ user }) {
     </div>
   );
 }
+
+const SidebarCss = css`
+  position: relative;
+  width: 25%;
+  min-width: 260px;
+  padding: 20px 25px;
+  margin-right: 30px;
+
+  .function {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 8px 0;
+    cursor: pointer;
+    a {
+      display: flex;
+      align-items: center;
+      color: black;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    .accessBtn {
+      position: absolute;
+      right: 25px;
+      button {
+        margin-left: 6px;
+      }
+    }
+    .circleImg {
+      width: 40px;
+      height: 40px;
+      margin-right: 15px;
+    }
+    .icon {
+      background: transparent;
+      img {
+        object-fit: none;
+      }
+    }
+  }
+  .functionTitle {
+    color: #767676;
+    cursor: auto;
+  }
+  .info {
+    position: absolute;
+    transform: translateY(40px);
+    width: 100%;
+    left: 0;
+    padding: 0 25px; // same to sidebar
+    line-height: 24px;
+  }
+
+  @media ${breakpoints.tablet} {
+    display: none;
+  }
+`;
 
 export default Sidebar;

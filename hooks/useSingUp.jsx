@@ -5,7 +5,7 @@ import useLogIn from "./useLogIn";
 
 const useSignUp = () => {
   const [error, setError] = useState(null);
-  const {logIn} = useLogIn();
+  const { logIn } = useLogIn();
 
   const signUp = async (name, email, password) => {
     // console.log('sign')

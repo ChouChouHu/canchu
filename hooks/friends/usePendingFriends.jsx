@@ -1,10 +1,13 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { parseCookies } from "nookies";
+import useLogout from "../useLogOut";
 
 const usePendingFriends = () => {
   const [friends, setFriends] = useState(null);
   // const [error, setError] = useState(null);
+  const { logOut } = useLogout();
+
   const fetchData = async () => {
     const cookies = parseCookies();
     const { accessToken } = cookies;
@@ -19,8 +22,10 @@ const usePendingFriends = () => {
       );
       setFriends(response.data.data.users);
     } catch (err) {
-      // setError(err.response.data.message || "取得用戶資料失敗");
-      console.log(err.message || "取得用戶資料失敗");
+      console.log(err.response.data || "取得用戶資料失敗");
+      if (err.response.status === 403) {
+        logOut();
+      }
     }
   };
   useEffect(() => {

@@ -9,10 +9,135 @@ import useMyProfile from "../../hooks/user/useMyProfile";
 import Button from "../Layout/Button";
 import useEditAPost from "../../hooks/post/useEditAPost";
 
+function Feed({
+  id,
+  userId,
+  picture,
+  name,
+  createdAt,
+  context,
+  isLiked: APILike,
+  likeCount,
+  commentCount,
+  comments,
+  showComments
+}) {
+  const { user: myself } = useMyProfile();
+  const isMyself = () => myself?.id === userId; // temp
+
+  const [feedText, setFeedText] = useState(context);
+  const [isEditing, setEditing] = useState(false);
+  const { editAPost } = useEditAPost();
+  const handleEdit = (e) => {
+    e.preventDefault();
+    editAPost(id, feedText);
+  };
+
+  const [isLiked, setLiked] = useState(APILike); // Optimistic UI Update
+  const { likeAPost } = useLikeAPost();
+  const { unlikeAPost } = useUnlikeAPost();
+  const handleLike = () => {
+    if (!isLiked) likeAPost(id);
+    else unlikeAPost(id);
+    setLiked(!isLiked);
+  };
+
+  const userLink = `/user/${userId}`; // wrong
+  const postLink = `/posts/${id}`;
+  return (
+    <div className={`${FeedCss} box`}>
+      {isMyself() && !isEditing && (
+        <div className="editBtn" onClick={() => setEditing(true)}>
+          <img src="/images/edit_btn.svg" alt="edit" />
+        </div>
+      )}
+      <div className="user">
+        <Link href={userLink} className="avatar circleImg">
+          {picture && <img src={picture} alt="avatar" />}
+        </Link>
+        <div className="userData">
+          <Link href={userLink} className="userName">
+            <h2>{name}</h2>
+          </Link>
+          <Link href={postLink} className="timeStamp">
+            {createdAt}
+          </Link>
+        </div>
+      </div>
+      {!isEditing ? (
+        <article className="feedText">{context}</article>
+      ) : (
+        <form onSubmit={(e) => handleEdit(e)}>
+          <textarea
+            className="feedText"
+            value={feedText}
+            onChange={(e) => setFeedText(e.target.value)}
+          />
+          <div className="btns">
+            <Button small type="submit">
+              確認
+            </Button>
+            <Button small grey onClick={() => setEditing(false)}>
+              取消
+            </Button>
+          </div>
+        </form>
+      )}
+      <div className="functionList">
+        <div
+          className={`likeBtn${isLiked ? " isLiked" : ""}`}
+          onClick={handleLike}
+        >
+          <img
+            src={`/images/heart${isLiked ? "_liked" : ""}.svg`}
+            alt="liked"
+          />
+        </div>
+        <Link href={postLink} className="commentBtn">
+          <img src="/images/comment.svg" alt="comment button" />
+        </Link>
+        <div className="shareBtn" />
+      </div>
+      <div className="interactionStatus">
+        <div className="whoLikes">
+          {/* <div className="friendPhotos">
+            <div className="friendPhoto" />
+            <div className="friendPhoto" />
+            <div className="friendPhoto" />
+          </div> */}
+          <Link href={postLink} className="namesOfLikes">
+            {likeCount} 人喜歡這則貼文
+          </Link>
+        </div>
+        <div className="interactionInfo">
+          <Link href={postLink} className="numberOfComments">
+            {commentCount} 則留言
+          </Link>
+          {/* <div className="numberOfSharings">5 次分享</div> */}
+        </div>
+      </div>
+      <div className="commentArea">
+        {showComments && <Comments comments={comments} />}
+        <div className="leaveComment">
+          <Link href={userLink} className="myAvatar circleImg">
+            {myself?.picture && <img src={myself.picture} alt="my avatar" />}
+          </Link>
+          {!showComments ? (
+            <Link href={postLink} className="commentBtn">
+              留個言吧
+            </Link>
+          ) : (
+            <LeaveComment id={id} />
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const FeedCss = css`
   position: relative;
-  max-width: 80vw;
-  min-width: 700px;
+  min-width: 500px;
   margin: 0px 0px 23px 0px;
   font-size: 13px;
 
@@ -241,131 +366,5 @@ const FeedCss = css`
     margin-right: 20px;
   }
 `;
-
-function Feed({
-  id,
-  userId,
-  picture,
-  name,
-  createdAt,
-  context,
-  isLiked: APILike,
-  likeCount,
-  commentCount,
-  comments,
-  showComments
-}) {
-  const { user: myself } = useMyProfile();
-  const isMyself = () => myself?.id === userId; // temp
-
-  const [feedText, setFeedText] = useState(context);
-  const [isEditing, setEditing] = useState(false);
-  const { editAPost } = useEditAPost();
-  const handleEdit = (e) => {
-    e.preventDefault();
-    editAPost(id, feedText);
-  }
-
-  const [isLiked, setLiked] = useState(APILike); // Optimistic UI Update
-  const { likeAPost } = useLikeAPost();
-  const { unlikeAPost } = useUnlikeAPost();
-  const handleLike = () => {
-    if (!isLiked) likeAPost(id);
-    else unlikeAPost(id);
-    setLiked(!isLiked);
-  };
-
-  const userLink = `/user/${userId}`; // wrong
-  const postLink = `/posts/${id}`;
-  return (
-    <div className={`${FeedCss} box`}>
-      {isMyself() && !isEditing && (
-        <div className="editBtn" onClick={() => setEditing(true)}>
-          <img src="/images/edit_btn.svg" alt="edit" />
-        </div>
-      )}
-      <div className="user">
-        <Link href={userLink} className="avatar circleImg">
-          {picture && <img src={picture} alt="avatar" />}
-        </Link>
-        <div className="userData">
-          <Link href={userLink} className="userName">
-            <h2>{name}</h2>
-          </Link>
-          <Link href={postLink} className="timeStamp">
-            {createdAt}
-          </Link>
-        </div>
-      </div>
-      {!isEditing ? (
-        <article className="feedText">{context}</article>
-      ) : (
-        <form onSubmit={(e) => handleEdit(e)}>
-          <textarea
-            className="feedText"
-            value={feedText}
-            onChange={(e) => setFeedText(e.target.value)}
-          />
-          <div className="btns">
-            <Button small type="submit">
-              確認
-            </Button>
-            <Button small grey onClick={() => setEditing(false)}>
-              取消
-            </Button>
-          </div>
-        </form>
-      )}
-      <div className="functionList">
-        <div
-          className={`likeBtn${isLiked ? " isLiked" : ""}`}
-          onClick={handleLike}
-        >
-          <img
-            src={`/images/heart${isLiked ? "_liked" : ""}.svg`}
-            alt="liked"
-          />
-        </div>
-        <Link href={postLink} className="commentBtn">
-          <img src="/images/comment.svg" alt="comment button" />
-        </Link>
-        <div className="shareBtn" />
-      </div>
-      <div className="interactionStatus">
-        <div className="whoLikes">
-          {/* <div className="friendPhotos">
-            <div className="friendPhoto" />
-            <div className="friendPhoto" />
-            <div className="friendPhoto" />
-          </div> */}
-          <Link href={postLink} className="namesOfLikes">
-            {likeCount} 人喜歡這則貼文
-          </Link>
-        </div>
-        <div className="interactionInfo">
-          <Link href={postLink} className="numberOfComments">
-            {commentCount} 則留言
-          </Link>
-          {/* <div className="numberOfSharings">5 次分享</div> */}
-        </div>
-      </div>
-      <div className="commentArea">
-        {showComments && <Comments comments={comments} />}
-        <div className="leaveComment">
-          <Link href={userLink} className="myAvatar circleImg">
-            {myself?.picture && <img src={myself.picture} alt="my avatar" />}
-          </Link>
-          {!showComments ? (
-            <Link href={postLink} className="commentBtn">
-              留個言吧
-            </Link>
-          ) : (
-            <LeaveComment id={id} />
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
 
 export default Feed;

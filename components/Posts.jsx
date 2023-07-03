@@ -1,13 +1,15 @@
 import { css } from "@emotion/css";
 import Feed from "./Feed";
 import usePosts from "../hooks/post/usePosts";
+import useInfiniteScroll from "../hooks/useInfiniteScroll";
 
 const PostsCss = css`
   /*  */
 `;
 
 function Posts({ userId }) {
-  const { posts } = usePosts(userId);
+  const { posts, updatePostsByCursor } = usePosts(userId);
+  useInfiniteScroll(() => updatePostsByCursor());
   return (
     <div className={PostsCss}>
       {posts?.map((post) => (

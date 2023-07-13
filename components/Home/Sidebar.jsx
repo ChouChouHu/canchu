@@ -7,6 +7,7 @@ import Button from "../Layout/Button";
 import useAgreeFriend from "../../hooks/friends/useAgreeFriend";
 import useDeleteFriend from "../../hooks/friends/useDeleteFriend";
 import breakpoints from "../../shared/breakpoints";
+import Avatar from "../Layout/Avatar";
 
 function Sidebar({ user }) {
   const [showAllFriends, setShowAllFriend] = useState(false);
@@ -19,7 +20,7 @@ function Sidebar({ user }) {
       <div className="function">
         <Link href={`/user/${user?.id}`}>
           <div className="circleImg">
-            {user?.picture ? <img src={user?.picture} alt="userphoto" /> : null}
+            <Avatar picture={user?.picture} />
           </div>
           {user?.name}
         </Link>
@@ -39,10 +40,10 @@ function Sidebar({ user }) {
         <div className="function" key="friend.id">
           <Link href={`/user/${pendingFriend.id}`}>
             <div className="circleImg">
-              {pendingFriend.picture && (
-                <img src={pendingFriend.picture} alt="friend img" />
-              )}
+            <Avatar picture={pendingFriend?.picture} />
             </div>
+            <div />
+
             {pendingFriend.name}
           </Link>
           <div className="accessBtn">
@@ -55,7 +56,9 @@ function Sidebar({ user }) {
             <Button
               small
               grey
-              onClick={() => deleteFriend(pendingFriend.friendship.id, 'not friend yet')}
+              onClick={() =>
+                deleteFriend(pendingFriend.friendship.id, "not friend yet")
+              }
             >
               取消
             </Button>
@@ -68,15 +71,17 @@ function Sidebar({ user }) {
             <div className="function" key="friend.id">
               <Link href={`/user/${friend.id}`}>
                 <div className="circleImg">
-                  {friend.picture && (
-                    <img src={friend.picture} alt="friend img" />
-                  )}
+                  <Avatar picture={friend?.picture} />
                 </div>
                 {friend.name}
               </Link>
             </div>
           )
       )}
+      {(!friends || friends?.length === 0) &&
+      (!pendingFriends || pendingFriends?.length === 0) ? (
+        <div className="friendNullMessage">你沒有朋友</div>
+      ) : null}
       {!showAllFriends && friends?.length >= 6 && (
         <div className="function" onClick={() => setShowAllFriend(true)}>
           <div className="circleImg icon">
@@ -147,6 +152,11 @@ const SidebarCss = css`
     left: 0;
     padding: 0 25px; // same to sidebar
     line-height: 24px;
+  }
+  .friendNullMessage {
+    /* text-align: center; */
+    margin: 10px 0;
+    padding-left: 55px;
   }
 
   @media ${breakpoints.tablet} {

@@ -5,12 +5,13 @@ import useAgreeFriend from "../../hooks/friends/useAgreeFriend";
 import Button from "../Layout/Button";
 import useUpdateProfile from "../../hooks/user/useUpdateProfile";
 import useDeleteFriend from "../../hooks/friends/useDeleteFriend";
+import breakpoints from "../../shared/breakpoints";
 
 const SidebarCss = css`
   margin-right: 30px;
   padding: 25px 15px;
-  width: 350px; // can be shrink
-  min-width: 320px;
+  width: 460px;
+  min-width: 250px;
 
   .info {
     padding: 12px 10px;
@@ -56,6 +57,10 @@ const SidebarCss = css`
       }
     }
   }
+  @media ${breakpoints.tablet} {
+    width: 100%;
+    margin-bottom: 23px;
+  }
 `;
 
 function Sidebar({ user, isMyself }) {
@@ -72,14 +77,20 @@ function Sidebar({ user, isMyself }) {
   const { sendFriendRequest } = useSendFriendRequest();
   const { agreeFriend } = useAgreeFriend();
   const { deleteFriend } = useDeleteFriend();
+
+  const clickCancel = () => {
+    setEditing(false);
+    setInteresting("");
+    setIntroduction("");
+  }
   return (
     <div className={`${SidebarCss} box`}>
-      {isMyself() && (
+      {isMyself && (
         <Button isBlock bold onClick={() => setEditing(true)} grey={isEditing}>
           編輯個人檔案
         </Button>
       )}
-      {!isMyself() && user && !user.friendship && (
+      {!isMyself && user && !user.friendship && (
         <Button isBlock bold onClick={() => sendFriendRequest(user.id)}>
           邀請成為好友
         </Button>
@@ -95,7 +106,12 @@ function Sidebar({ user, isMyself }) {
         </Button>
       )}
       {user?.friendship?.status === "friend" && (
-        <Button isBlock bold grey onClick={() => deleteFriend(user.friendship.id)}>
+        <Button
+          isBlock
+          bold
+          grey
+          onClick={() => deleteFriend(user.friendship.id)}
+        >
           刪除好友
         </Button>
       )}
@@ -104,10 +120,12 @@ function Sidebar({ user, isMyself }) {
           <h3>自我介紹</h3>
           {!isEditing &&
             (introduction ||
-              (isMyself() && (
+              (isMyself ? (
                 <div className="defaultIntroText">
                   你還沒有新增自我介紹，快按編輯鈕來寫一些迷人的介紹給朋友吧！
                 </div>
+              ) : (
+                <div className="defaultIntroText">他還沒新增自我介紹</div>
               )))}
           {isEditing && (
             <textarea
@@ -142,10 +160,12 @@ function Sidebar({ user, isMyself }) {
           <h3>興趣</h3>
           {!isEditing &&
             (interesting ||
-              (isMyself() && (
+              (isMyself ? (
                 <div className="defaultIntroText">
                   你還沒有新增興趣喔，要不要考慮新增幾個來認識朋友呀？
                 </div>
+              ) : (
+                <div className="defaultIntroText">他還沒有新增興趣</div>
               )))}
           {isEditing && (
             <textarea
@@ -173,7 +193,7 @@ function Sidebar({ user, isMyself }) {
             >
               確認
             </Button>
-            <Button small grey onClick={() => setEditing(false)}>
+            <Button small grey onClick={() => clickCancel()}>
               取消
             </Button>
           </div>

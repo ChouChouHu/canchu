@@ -11,6 +11,16 @@ const useUploadAvatar = () => {
   const uploadAvatar = async (file) => {
     setIsLoading(true);
     setError(null);
+
+    // 檢查檔案的副檔名
+    const acceptedExtensions = ["png", "jpg", "jpeg"];
+    const fileExtension = file.name.split(".").pop().toLowerCase();
+    if (!acceptedExtensions.includes(fileExtension)) {
+      setIsLoading(false);
+      alert("只接受 .png 和 .jpg 格式的圖片");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("picture", file);
 
@@ -27,9 +37,9 @@ const useUploadAvatar = () => {
       );
 
       setIsLoading(false);
-      await alert('圖片上傳成功');
+      await alert("圖片上傳成功");
       window.location.reload();
-    //   return response.data;
+      //   return response.data;
     } catch (err) {
       setIsLoading(false);
       alert(err.message);

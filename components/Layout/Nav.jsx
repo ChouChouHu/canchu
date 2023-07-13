@@ -6,6 +6,8 @@ import useNotifications from "../../hooks/useNotifications";
 import useSearchUsers from "../../hooks/user/useSearchUsers";
 import useMyProfile from "../../hooks/user/useMyProfile";
 import breakpoints from "../../shared/breakpoints";
+import Avatar from "./Avatar";
+import EachNotification from "./EachNotification";
 
 function Nav() {
   const { logOut } = useLogout();
@@ -56,7 +58,7 @@ function Nav() {
           </div>
           <div className="hoverContainer">
             <div className="hoverArea">
-              <div className="notifications box">
+              <div className="notificationContent box">
                 <div className="notificationTitle">
                   <div className="circleImg">
                     <img
@@ -66,29 +68,24 @@ function Nav() {
                   </div>
                   我的通知
                 </div>
-                {events?.map((event) => (
-                  <div className="notification">
-                    <p>{event.summary}</p>
-                    <b>{event.created_at}</b>
-                    {/* <div className="eventFunction">
-                      <div className="check">v</div>
-                      <div className="cancel">x</div>
-                    </div> */}
-                  </div>
-                ))}
-                {events?.length >= 6 && (
+                <div className="notifications">
+                  {events?.map((event) => (
+                    <EachNotification event={event} />
+                  ))}
+                  {/* {events?.length >= 1 && (
                   <div className="showMoreNotification">
                     <b>查看全部通知</b>
                   </div>
-                )}
-                {events && events.legnth === 0 && "沒有任何通知"}
+                )} */}
+                  {events && events.legnth === 0 && "沒有任何通知"}
+                </div>
               </div>
             </div>
           </div>
         </div>
         <div className="avatarBtn hoverBtn">
           <div className="circleImg">
-            {user?.picture ? <img src={user?.picture} alt="userphoto" /> : null}
+            <Avatar picture={user?.picture} />
           </div>
           <div className="hoverContainer">
             <div className="hoverArea">
@@ -184,6 +181,7 @@ const NavCss = css`
     .hoverArea {
       /* background: red; */
       padding-top: 44px;
+      cursor: auto;
     }
     .hoverContainer {
       display: none;
@@ -216,13 +214,14 @@ const NavCss = css`
       .circleImg {
         width: 36px;
         height: 36px;
+        background: var(--main-color);
         img {
           width: 60%;
           height: 60%;
         }
       }
 
-      .notifications {
+      .notificationContent {
         width: 330px;
         display: flex;
         flex-direction: column;
@@ -235,50 +234,16 @@ const NavCss = css`
           display: flex;
           align-items: center;
           padding: 15px 25px;
+          cursor: auto;
 
           .circleImg {
             margin-right: 10px;
             background: white;
           }
         }
-        .notification {
-          padding: 15px 25px;
-          /* margin: 0 25px; */
-          border-bottom: 1px solid #d1cace;
-          line-height: 24px;
-
-          &:hover {
-            background: #eee;
-          }
-
-          /* .eventFunction {
-            position: absolute;
-            right: 10px;
-            margin-top: -45px; // temp
-            display: flex;
-            .check,
-            .cancel {
-              width: 20px;
-              height: 20px;
-              border-radius: 50%;
-              background: var(--main-color);
-              color: white;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              margin-right: 8px;
-              font-weight: bold;
-            }
-          } */
-
-          p {
-            font-size: 16px;
-          }
-          b {
-            font-size: 14px;
-            font-weight: bold;
-            color: var(--main-color);
-          }
+        .notifications {
+          max-height: 350px;
+          overflow: scroll;
         }
         .notification:last-child {
           border: 0;
@@ -341,6 +306,21 @@ const NavCss = css`
         input {
           min-width: 220px;
         }
+      }
+    }
+  }
+  @media ${breakpoints.phone} {
+    .search {
+      display: none;
+    }
+    .functions {
+      right: 15px;
+    }
+    .hoverBtn {
+      .hoverContainer {
+        position: fixed;
+        margin-top: 23px;
+        right: -1px;
       }
     }
   }

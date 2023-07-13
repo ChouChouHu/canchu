@@ -8,6 +8,8 @@ import useUnlikeAPost from "../../hooks/post/useUnlikeAPost";
 import useMyProfile from "../../hooks/user/useMyProfile";
 import Button from "../Layout/Button";
 import useEditAPost from "../../hooks/post/useEditAPost";
+import Avatar from "../Layout/Avatar";
+import breakpoints from "../../shared/breakpoints";
 
 function Feed({
   id,
@@ -17,7 +19,7 @@ function Feed({
   createdAt,
   context,
   isLiked: APILike,
-  likeCount,
+  likeCount: APILikeCount,
   commentCount,
   comments,
   showComments
@@ -34,11 +36,18 @@ function Feed({
   };
 
   const [isLiked, setLiked] = useState(APILike); // Optimistic UI Update
+  const [likeCount, setLikeCount] = useState(APILikeCount);
   const { likeAPost } = useLikeAPost();
   const { unlikeAPost } = useUnlikeAPost();
   const handleLike = () => {
-    if (!isLiked) likeAPost(id);
-    else unlikeAPost(id);
+    if (!isLiked) {
+      likeAPost(id);
+      setLikeCount((prev) => prev + 1);
+    }
+    else {
+      unlikeAPost(id);
+      setLikeCount((prev) => prev - 1);
+    }
     setLiked(!isLiked);
   };
 
@@ -51,76 +60,78 @@ function Feed({
           <img src="/images/edit_btn.svg" alt="edit" />
         </div>
       )}
-      <div className="user">
-        <Link href={userLink} className="avatar circleImg">
-          {picture && <img src={picture} alt="avatar" />}
-        </Link>
-        <div className="userData">
-          <Link href={userLink} className="userName">
-            <h2>{name}</h2>
+      <div className="contentArea">
+        <div className="user">
+          <Link href={userLink} className="avatar circleImg">
+            <Avatar picture={picture} />
           </Link>
-          <Link href={postLink} className="timeStamp">
-            {createdAt}
-          </Link>
-        </div>
-      </div>
-      {!isEditing ? (
-        <article className="feedText">{context}</article>
-      ) : (
-        <form onSubmit={(e) => handleEdit(e)}>
-          <textarea
-            className="feedText"
-            value={feedText}
-            onChange={(e) => setFeedText(e.target.value)}
-          />
-          <div className="btns">
-            <Button small type="submit">
-              確認
-            </Button>
-            <Button small grey onClick={() => setEditing(false)}>
-              取消
-            </Button>
+          <div className="userData">
+            <Link href={userLink} className="userName">
+              <h2>{name}</h2>
+            </Link>
+            <Link href={postLink} className="timeStamp">
+              {createdAt}
+            </Link>
           </div>
-        </form>
-      )}
-      <div className="functionList">
-        <div
-          className={`likeBtn${isLiked ? " isLiked" : ""}`}
-          onClick={handleLike}
-        >
-          <img
-            src={`/images/heart${isLiked ? "_liked" : ""}.svg`}
-            alt="liked"
-          />
         </div>
-        <Link href={postLink} className="commentBtn">
-          <img src="/images/comment.svg" alt="comment button" />
-        </Link>
-        <div className="shareBtn" />
-      </div>
-      <div className="interactionStatus">
-        <div className="whoLikes">
-          {/* <div className="friendPhotos">
-            <div className="friendPhoto" />
-            <div className="friendPhoto" />
-            <div className="friendPhoto" />
-          </div> */}
-          <Link href={postLink} className="namesOfLikes">
-            {likeCount} 人喜歡這則貼文
+        {!isEditing ? (
+          <article className="feedText">{context}</article>
+        ) : (
+          <form onSubmit={(e) => handleEdit(e)}>
+            <textarea
+              className="feedText"
+              value={feedText}
+              onChange={(e) => setFeedText(e.target.value)}
+            />
+            <div className="btns">
+              <Button small type="submit">
+                確認
+              </Button>
+              <Button small grey onClick={() => setEditing(false)}>
+                取消
+              </Button>
+            </div>
+          </form>
+        )}
+        <div className="functionList">
+          <div
+            className={`likeBtn${isLiked ? " isLiked" : ""}`}
+            onClick={handleLike}
+          >
+            <img
+              src={`/images/heart${isLiked ? "_liked" : ""}.svg`}
+              alt="liked"
+            />
+          </div>
+          <Link href={postLink} className="commentBtn">
+            <img src="/images/comment.svg" alt="comment button" />
           </Link>
+          <div className="shareBtn" />
         </div>
-        <div className="interactionInfo">
-          <Link href={postLink} className="numberOfComments">
-            {commentCount} 則留言
-          </Link>
-          {/* <div className="numberOfSharings">5 次分享</div> */}
+        <div className="interactionStatus">
+          <div className="whoLikes">
+            {/* <div className="friendPhotos">
+              <div className="friendPhoto" />
+              <div className="friendPhoto" />
+              <div className="friendPhoto" />
+            </div> */}
+            <Link href={postLink} className="namesOfLikes">
+              {likeCount} 人喜歡這則貼文
+            </Link>
+          </div>
+          <div className="interactionInfo">
+            <Link href={postLink} className="numberOfComments">
+              {commentCount} 則留言
+            </Link>
+            {/* <div className="numberOfSharings">5 次分享</div> */}
+          </div>
         </div>
       </div>
       <div className="commentArea">
         {showComments && <Comments comments={comments} />}
         <div className="leaveComment">
           <Link href={userLink} className="myAvatar circleImg">
-            {myself?.picture && <img src={myself.picture} alt="my avatar" />}
+            <Avatar picture={myself?.picture} />
           </Link>
           {!showComments ? (
             <Link href={postLink} className="commentBtn">
@@ -137,7 +148,7 @@ function Feed({
 
 const FeedCss = css`
   position: relative;
-  min-width: 500px;
+  /* min-width: 500px; */
   margin: 0px 0px 23px 0px;
   font-size: 13px;
 
@@ -159,9 +170,13 @@ const FeedCss = css`
     }
   }
 
+  .contentArea {
+    padding: 0 40px;
+  }
+
   .user {
     display: flex;
-    margin: 20px 40px;
+    margin: 20px 0px;
 
     .avatar {
       border-radius: 50%;
@@ -210,8 +225,10 @@ const FeedCss = css`
 
   .feedText {
     font-size: 16px;
-    margin: 5px 40px;
+    margin: 5px 0px 20px 0px;
     min-height: 100px;
+    white-space: pre-line;
+    line-height: 24px;
   }
   textarea.feedText {
     width: calc(100% - 80px);
@@ -232,7 +249,7 @@ const FeedCss = css`
   .functionList {
     position: relative;
     display: flex;
-    margin: 0px 35px;
+    margin: 0px 0px;
     border-top: 1px solid #d9d9d9;
     border-bottom: 1px solid #d9d9d9;
     padding: 8px 5px;
@@ -279,7 +296,7 @@ const FeedCss = css`
     display: flex;
     align-items: center;
     position: relative;
-    margin: 10px 35px;
+    margin: 10px 0px;
   }
 
   .whoLikes {
@@ -364,6 +381,15 @@ const FeedCss = css`
     border-radius: 50%;
     background-color: #a4c3d3;
     margin-right: 20px;
+  }
+
+  @media ${breakpoints.phone} {
+    .contentArea {
+      padding: 0 30px;
+    }
+    .commentArea {
+      padding: 20px 30px;
+    }
   }
 `;
 

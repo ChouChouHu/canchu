@@ -8,12 +8,14 @@ import useMyProfile from "../../hooks/user/useMyProfile";
 import Posts from "../../components/Posts";
 import useUploadAvatar from "../../hooks/user/useUploadAvatar";
 import Sidebar from "../../components/Profile/Sidebar";
+import Avatar from "../../components/Layout/Avatar";
+import breakpoints from "../../shared/breakpoints";
 
 const UserPageCss = css`
   .profile {
     position: relative;
     background: white;
-    padding: 0 135px;
+    padding: 0 8vw;
     padding-top: 145px;
 
     .info {
@@ -84,10 +86,25 @@ const UserPageCss = css`
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    padding: 35px 135px;
+    padding: 35px 8vw;
 
     .posts {
       width: 100%;
+    }
+  }
+
+  @media ${breakpoints.tablet} {
+    .content {
+      flex-direction: column;
+    }
+    .profile {
+      .info {
+        flex-direction: column;
+        .avatar {
+          margin-bottom: 20px;
+          margin-right: 20px;
+        }
+      }
     }
   }
 `;
@@ -124,9 +141,7 @@ function UserPage() {
         <div className="profile">
           <div className="info">
             <div className={`avatar circleImg${isMyself() ? " myAvatar" : ""}`}>
-              {user?.picture ? (
-                <img src={user?.picture} alt="userphoto" />
-              ) : null}
+              <Avatar picture={user?.picture} />
               {isMyself() && (
                 <div className="editBtn">
                   {" "}
@@ -152,10 +167,10 @@ function UserPage() {
           </div>
         </div>
         <div className="content">
-          <Sidebar user={user} isMyself={isMyself} />
+          <Sidebar user={user} isMyself={isMyself()} />
           <div className="posts">
             {isMyself() && <PostAPost user={myProfile} />}
-            {user && <Posts userId={user.id} />}
+            {user && <Posts userId={user.id} isMyself={isMyself()} />}
           </div>
         </div>
       </div>

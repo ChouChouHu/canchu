@@ -1,5 +1,6 @@
 import { css } from "@emotion/css";
 import Link from "next/link";
+import Avatar from "../Layout/Avatar";
 
 const CommentsCss = css`
   display: flex;
@@ -32,7 +33,7 @@ function Comments({ comments }) {
   return comments?.map((comment) => (
     <div className={CommentsCss}>
       <Link href={`/user/${userLink(comment)}`} className="circleImg">
-        <img src={comment.user.picture} alt="user avatar" />
+        <Avatar picture={comment.user.picture}/>
       </Link>
       <div>
         <div className="content">

@@ -2,6 +2,8 @@ import { css } from "@emotion/css";
 import { useState } from "react";
 import Button from "./Layout/Button";
 import useUploadAPost from "../hooks/post/useUploadAPost";
+import Avatar from "./Layout/Avatar";
+import breakpoints from "../shared/breakpoints";
 
 const UploadAPostCss = css`
   margin: 0px 0px 23px 0px;
@@ -26,6 +28,13 @@ const UploadAPostCss = css`
       min-height: 100px;
     }
   }
+
+  @media ${breakpoints.tablet} {
+    flex-direction: column;
+    .avatar {
+      display: none;
+    }
+  }
 `;
 
 function UploadAPost({ user }) {
@@ -34,7 +43,7 @@ function UploadAPost({ user }) {
   return (
     <div className={`${UploadAPostCss} box`}>
       <div className="avatar circleImg">
-        {user?.picture ? <img src={user?.picture} alt="userphoto" /> : null}
+        <Avatar picture={user?.picture} />
       </div>
       <div className="form">
         <textarea

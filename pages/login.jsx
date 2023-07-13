@@ -5,6 +5,7 @@ import { parseCookies } from "nookies";
 import useLogIn from "../hooks/useLogIn";
 import Button from "../components/Layout/Button";
 import useSignUp from "../hooks/useSingUp";
+import breakpoints from "../shared/breakpoints";
 
 const LoginCss = css`
   background: #f9f9f9;
@@ -75,6 +76,23 @@ const LoginCss = css`
       background: var(--main-color);
     }
   }
+
+  @media ${breakpoints.tablet} {
+    .login {
+      width: 80%;
+    }
+  }
+  @media ${breakpoints.phone} {
+    .login {
+      width: 95%;
+      .form {
+        padding: 45px;
+      }
+    }
+    .loginStyle {
+      display: none;
+    }
+  }
 `;
 
 function Login() {
@@ -88,13 +106,13 @@ function Login() {
 
   const handleLogIn = (e) => {
     e.preventDefault();
-    logIn(email, password)
-  }
+    logIn(email, password);
+  };
 
   const handleSignUp = (e) => {
     e.preventDefault();
-    signUp(name, email, password)
-  }
+    signUp(name, email, password);
+  };
   return (
     <div className={LoginCss}>
       <div className="login box">
@@ -166,7 +184,7 @@ function Login() {
                   value={passwordAgain}
                   onChange={(e) => setPasswordAgain(e.target.value)}
                 />
-                {signUpError &&  <p className="errorMessage">{signUpError}</p>}
+                {signUpError && <p className="errorMessage">{signUpError}</p>}
               </div>
               <Button type="submit">註冊</Button>
               <br />

@@ -16,7 +16,7 @@ const HomeCss = css`
 
     .feedsWall {
       width: 55vw;
-      min-width: 500px;
+      /* min-width: 500px; */
     }
   }
 

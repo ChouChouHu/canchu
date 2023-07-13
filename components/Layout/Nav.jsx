@@ -77,7 +77,7 @@ function Nav() {
                     <b>查看全部通知</b>
                   </div>
                 )} */}
-                  {events && events.legnth === 0 && "沒有任何通知"}
+                  {events && events.length === 0 && <div className="nullMessage">沒有任何通知</div>}
                 </div>
               </div>
             </div>
@@ -244,6 +244,10 @@ const NavCss = css`
         .notifications {
           max-height: 350px;
           overflow: scroll;
+          .nullMessage {
+            padding: 20px;
+            text-align: center;
+          }
         }
         .notification:last-child {
           border: 0;

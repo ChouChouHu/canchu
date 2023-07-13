@@ -1,6 +1,8 @@
 import { css } from "@emotion/css";
 
 const AvatarCss = css`
+  width: 100%;
+  height: 100%;
   .default {
     margin-bottom: -35%;
   }

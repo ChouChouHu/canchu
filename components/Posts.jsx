@@ -24,7 +24,7 @@ function Posts({ userId, isMyself }) {
           name={post.name}
           createdAt={post.created_at}
           context={post.context}
-          isLiked={post.is_like}
+          isLiked={post.is_liked}
           likeCount={post.like_count}
           commentCount={post.comment_count}
         />

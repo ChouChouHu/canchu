@@ -82,7 +82,7 @@ function Sidebar({ user, isMyself }) {
     setEditing(false);
     setInteresting("");
     setIntroduction("");
-  }
+  };
   return (
     <div className={`${SidebarCss} box`}>
       {isMyself && (
@@ -96,8 +96,13 @@ function Sidebar({ user, isMyself }) {
         </Button>
       )}
       {user && user.friendship?.status === "requested" && (
-        <Button isBlock bold forbidden>
-          已送出邀請
+        <Button
+          isBlock
+          bold
+          grey
+          onClick={() => deleteFriend(user.friendship.id, true)}
+        >
+          取消好友邀請
         </Button>
       )}
       {user && user.friendship?.status === "pending" && (

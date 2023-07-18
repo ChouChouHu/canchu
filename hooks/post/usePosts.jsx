@@ -43,7 +43,7 @@ const usePosts = (userId) => {
               Authorization: `Bearer ${accessToken}`
             }
           });
-          setPosts((prevPosts) => [...prevPosts, ...response.data.data.posts]);
+          setPosts([...posts, ...response.data.data.posts]);
           setCursor(response.data.data.next_cursor);
         } catch (err) {
           console.log(err.response.data || "取得用戶資料失敗");

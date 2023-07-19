@@ -13,6 +13,7 @@ const PostsCss = css`
 function Posts({ userId, isMyself }) {
   const { posts, updatePostsByCursor } = usePosts(userId);
   useInfiniteScroll(() => updatePostsByCursor());
+  
   return (
     <div className={PostsCss}>
       {posts?.map((post) => (

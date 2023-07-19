@@ -243,7 +243,7 @@ const NavCss = css`
         }
         .notifications {
           max-height: 350px;
-          overflow: scroll;
+          overflow-x: scroll;
           .nullMessage {
             padding: 20px;
             text-align: center;

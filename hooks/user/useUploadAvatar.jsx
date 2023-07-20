@@ -20,9 +20,11 @@ const useUploadAvatar = () => {
       alert("只接受 .png 和 .jpg 格式的圖片");
       return;
     }
+    // console.log(file)
 
     const formData = new FormData();
     formData.append("picture", file);
+    // console.log(formData);
 
     try {
       await axios.put(

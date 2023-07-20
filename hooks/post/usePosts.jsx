@@ -38,11 +38,14 @@ const usePosts = (userId) => {
     updatePostsByCursor: async () => {
       if (cursor) {
         try {
-          const response = await axios.get(`${url}cursor=${cursor}`, {
-            headers: {
-              Authorization: `Bearer ${accessToken}`
+          const response = await axios.get(
+            `${url}cursor=${cursor}${userId ? `&user_id=${userId}` : ""}`,
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`
+              }
             }
-          });
+          );
           setPosts([...posts, ...response.data.data.posts]);
           setCursor(response.data.data.next_cursor);
         } catch (err) {

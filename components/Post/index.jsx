@@ -51,7 +51,7 @@ function Feed({
     setLiked(!isLiked);
   };
 
-  const userLink = `/user/${userId}`; // wrong
+  const userLink = `/users/${userId}`;
   const postLink = `/posts/${id}`;
   return (
     <div className={`${FeedCss} box`}>

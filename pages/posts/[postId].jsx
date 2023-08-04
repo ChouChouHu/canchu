@@ -1,6 +1,6 @@
 import { css } from "@emotion/css";
 import { useRouter } from "next/router";
-import Feed from "../../components/Feed";
+import Post from "../../components/Post";
 import Layout from "../../components/Layout";
 import usePost from "../../hooks/post/usePost";
 import breakpoints from "../../shared/breakpoints";
@@ -30,7 +30,7 @@ function PostPage() {
     <Layout>
       <div className={PostPageCss}>
         {post ? (
-          <Feed
+          <Post
             key={post.id}
             id={post.id}
             userId={post.user_id}

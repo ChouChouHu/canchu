@@ -1,5 +1,7 @@
+/* eslint-disable no-shadow */
 import { parseCookies } from "nookies";
 import { useState } from "react";
+// eslint-disable-next-line import/no-extraneous-dependencies
 import useSWR, { useSWRConfig } from "swr";
 
 export default (url, options) => {
@@ -41,7 +43,7 @@ export default (url, options) => {
         console.log(`on loading slow retry: ${key}`);
         // time out to trigger refetch once
         // note: 3s default, 5s when internet bad
-        if (!isSent) mutate(fetchUrl);
+        if (!isSent) mutate(url);
         setIsSent(true);
       },
       ...options

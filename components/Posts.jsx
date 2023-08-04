@@ -1,5 +1,5 @@
 import { css } from "@emotion/css";
-import Feed from "./Feed";
+import Post from "./Post";
 import usePosts from "../hooks/post/usePosts";
 import useInfiniteScroll from "../hooks/useInfiniteScroll";
 
@@ -17,7 +17,7 @@ function Posts({ userId, isMyself }) {
   return (
     <div className={PostsCss}>
       {posts?.map((post) => (
-        <Feed
+        <Post
           key={post.id}
           id={post.id}
           userId={post.user_id}

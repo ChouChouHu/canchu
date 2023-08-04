@@ -20,7 +20,6 @@ const useUploadAvatar = () => {
       alert("只接受 .png 和 .jpg 格式的圖片");
       return;
     }
-
     const formData = new FormData();
     formData.append("picture", file);
 
@@ -38,7 +37,7 @@ const useUploadAvatar = () => {
 
       setIsLoading(false);
       await alert("圖片上傳成功");
-      window.location.reload();
+      // window.location.reload();
       //   return response.data;
     } catch (err) {
       setIsLoading(false);

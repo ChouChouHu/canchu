@@ -1,10 +1,12 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { css } from "@emotion/css";
+
 import { useState } from "react";
+import { css } from "@emotion/css";
 import useReadNotification from "../../hooks/useReadNotification";
 
 const EachNotificationCss = css`
+  position: relative;
   cursor: pointer;
   .checkedNotification {
     .checkCircle {

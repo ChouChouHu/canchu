@@ -108,10 +108,11 @@ function Login() {
     e.preventDefault();
     logIn(email, password);
   };
-
   const handleSignUp = (e) => {
     e.preventDefault();
-    signUp(name, email, password);
+    if (password !== passwordAgain) {
+      alert("兩次密碼不一致，請檢查！")
+    } else signUp(name, email, password);
   };
   return (
     <div className={LoginCss}>

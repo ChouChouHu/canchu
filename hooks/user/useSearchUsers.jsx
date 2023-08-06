@@ -7,6 +7,7 @@ const useSearchUsers = (keyword) => {
   // const [error, setError] = useState(null);
 
   useEffect(() => {
+    if (keyword === "") return
     const fetchData = async () => {
       const cookies = parseCookies();
       const { accessToken } = cookies;

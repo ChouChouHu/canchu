@@ -1,24 +1,27 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 const useInfiniteScroll = (callback) => {
   const [isLoading, setIsLoading] = useState(false);
+  const distance = 100;
 
   useEffect(() => {
     const checkScrollPosition = async () => {
-      // 如果已經滾動到接近頁面底部（距離底部100px內），則執行回調函數
-      if (!isLoading && window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 100) {
+      // 如果已經滾動到接近頁面底部（距離底部 100px 內），執行 callback 函數
+      const scrollBottom =
+        window.innerHeight + document.documentElement.scrollTop;
+      const isScrollToPosition =
+        scrollBottom >= document.documentElement.offsetHeight - distance;
+
+      if (!isLoading && isScrollToPosition) {
         setIsLoading(true);
-        await callback();
+        await callback(); // fetch posts
         setIsLoading(false);
       }
     };
 
-    // 添加滾動事件監聽器
-    window.addEventListener('scroll', checkScrollPosition);
-
-    // 刪除監聽器當組件卸載
-    return () => window.removeEventListener('scroll', checkScrollPosition);
-  }, [callback, isLoading]); // 依賴回調函數和isLoading的變化，若有變化則更新監聽器
+    window.addEventListener("scroll", checkScrollPosition);
+    return () => window.removeEventListener("scroll", checkScrollPosition);
+  }, [callback, isLoading]); // 依賴 callback 和 isLoading 的變化，若有變化則更新監聽器
 
   return isLoading;
 };

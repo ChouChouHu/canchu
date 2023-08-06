@@ -39,7 +39,7 @@ function Nav() {
         {isSearchFocused && searchUsers.length !== 0 && (
           <div className="searchList box">
             {searchUsers?.map((searchUser) => (
-              <Link href={`/user/${searchUser.id}`} className="user">
+              <Link href={`/user/${searchUser.id}`} key={searchUser.id} className="user">
                 <div className="circleImg">
                   {searchUser.picture && (
                     <img src={searchUser.picture} alt="user avatar" />
@@ -70,7 +70,7 @@ function Nav() {
                 </div>
                 <div className="notifications">
                   {events?.map((event) => (
-                    <EachNotification event={event} />
+                    <EachNotification event={event} key={event.id} />
                   ))}
                   {/* {events?.length >= 1 && (
                   <div className="showMoreNotification">

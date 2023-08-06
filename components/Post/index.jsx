@@ -1,6 +1,6 @@
 import { css } from "@emotion/css";
 import Link from "next/link";
-import { useState } from "react";
+import React, { useState } from "react";
 import Comments from "./Comments";
 import LeaveComment from "./LeaveComment";
 import useLikeAPost from "../../hooks/post/useLikeAPost";
@@ -11,7 +11,7 @@ import useEditAPost from "../../hooks/post/useEditAPost";
 import Avatar from "../Layout/Avatar";
 import breakpoints from "../../shared/breakpoints";
 
-function Feed({
+function Post({
   id,
   userId,
   picture,
@@ -25,7 +25,8 @@ function Feed({
   showComments
 }) {
   const { user: myself } = useMyProfile();
-  const isMyself = () => myself?.id === userId; // temp
+  const isMyself = () => myself?.id === userId;
+  console.log("render")
 
   const [feedText, setFeedText] = useState(context);
   const [isEditing, setEditing] = useState(false);
@@ -393,4 +394,4 @@ const FeedCss = css`
   }
 `;
 
-export default Feed;
+export default React.memo(Post);

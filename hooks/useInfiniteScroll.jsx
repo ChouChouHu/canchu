@@ -1,27 +1,33 @@
 import { useEffect, useState } from "react";
 
-const useInfiniteScroll = (callback) => {
+const useInfiniteScroll = (callback, distance = 100) => {
   const [isLoading, setIsLoading] = useState(false);
-  const distance = 100;
 
   useEffect(() => {
     const checkScrollPosition = async () => {
       // 如果已經滾動到接近頁面底部（距離底部 100px 內），執行 callback 函數
       const scrollBottom =
         window.innerHeight + document.documentElement.scrollTop;
-      const isScrollToPosition =
-        scrollBottom >= document.documentElement.offsetHeight - distance;
+      const pageHeight = document.documentElement.offsetHeight;
+      const isScrollToPosition = scrollBottom >= pageHeight  - distance;
 
-      if (!isLoading && isScrollToPosition) {
+      // console.log(`loading 狀態: ${isLoading}`);
+      if (isScrollToPosition && !isLoading) {
+        // console.log(`有 scroll 到定點嗎: ${isScrollToPosition}`);
         setIsLoading(true);
-        await callback(); // fetch posts
+        // console.log(`execute callback`);
+        await callback();
         setIsLoading(false);
       }
     };
 
     window.addEventListener("scroll", checkScrollPosition);
-    return () => window.removeEventListener("scroll", checkScrollPosition);
-  }, [callback, isLoading]); // 依賴 callback 和 isLoading 的變化，若有變化則更新監聽器
+    return () => {
+      // console.log('remove Listener');
+      window.removeEventListener("scroll", checkScrollPosition)
+    }
+      ;
+  }, [callback]);
 
   return isLoading;
 };

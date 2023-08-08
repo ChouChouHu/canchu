@@ -36,6 +36,7 @@ const usePosts = (userId) => {
   return {
     posts,
     updatePostsByCursor: async () => {
+      // console.log(`fetch by cursor: ${cursor}`)
       if (cursor) {
         try {
           const response = await axios.get(
@@ -46,6 +47,7 @@ const usePosts = (userId) => {
               }
             }
           );
+          // console.log('sucess fetch!')
           setPosts([...posts, ...response.data.data.posts]);
           setCursor(response.data.data.next_cursor);
         } catch (err) {

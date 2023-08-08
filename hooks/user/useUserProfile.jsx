@@ -1,7 +1,7 @@
-import useCoolFetch from "../useCoolFetch";
+import useSWRFetch from "../useSWRFetch";
 
 const useUserProfile = (userId) => {
-  const {data} = useCoolFetch(userId && `${process.env.NEXT_PUBLIC_API_URL}/users/${userId}/profile`);
+  const {data} = useSWRFetch(userId && `${process.env.NEXT_PUBLIC_API_URL}/users/${userId}/profile`);
   return { user: data?.user };
 };
 

@@ -24,18 +24,19 @@ function Nav() {
       <div className="search">
         <div className="searchInputContainer">
           <img className="searchImg" src="/images/search.png" alt="search" />
-          {/* temp */}
           <input
             placeholder="搜尋"
-            onChange={(e) => setSearchKeyword(e.target.value)}
+            onInput={(e) => setSearchKeyword(e.target.value)}
             onFocus={() => setSearchIsFocused(true)}
             onBlur={() =>
               setTimeout(() => {
                 setSearchIsFocused(false);
-              }, 200)
+              }, 50)
             }
           />
         </div>
+        {/* {console.log(isSearchFocused)} */}
+        {/* {console.log(searchUsers)} */}
         {isSearchFocused && searchUsers.length !== 0 && (
           <div className="searchList box">
             {searchUsers?.map((searchUser) => (
@@ -90,7 +91,7 @@ function Nav() {
           <div className="hoverContainer">
             <div className="hoverArea">
               <div className="box">
-                <Link href={`/user/${user?.id}`} className="btn">
+                <Link href={`/users/${user?.id}`} className="btn">
                   查看個人檔案
                 </Link>
                 <div className="btn" onClick={() => logOut()}>
@@ -280,6 +281,7 @@ const NavCss = css`
         overflow: hidden;
       }
       .btn {
+        cursor: pointer;
         padding: 15px 25px;
         /* margin: 0; */
         border-bottom: 1px solid #d1cace;

@@ -11,11 +11,12 @@ const AvatarCss = css`
 function Avatar({ picture }) {
   return (
     <div className={AvatarCss}>
+      {/* eslint-disable-next-line no-nested-ternary */}
       {picture ? (
         <img src={picture} alt="userphoto" />
-      ) : (
+      ) : picture === "" ? (
         <img className="default" src="/images/user.png" alt="userphoto" />
-      )}
+      ) : null}
     </div>
   );
 }

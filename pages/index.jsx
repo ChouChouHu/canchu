@@ -2,9 +2,9 @@ import Head from "next/head";
 import { css } from "@emotion/css";
 import Layout from "../components/Layout";
 import Sidebar from "../components/Home/Sidebar";
-import UploadAPost from "../components/UploadAPost";
+import UploadAPost from "../components/Post/UploadAPost";
 import useMyProfile from "../hooks/user/useMyProfile";
-import Posts from "../components/Posts";
+import Posts from "../components/Post/Posts";
 import breakpoints from "../shared/breakpoints";
 
 const HomeCss = css`

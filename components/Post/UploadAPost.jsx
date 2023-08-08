@@ -1,9 +1,9 @@
 import { css } from "@emotion/css";
 import { useState } from "react";
-import Button from "./Layout/Button";
-import useUploadAPost from "../hooks/post/useUploadAPost";
-import Avatar from "./Layout/Avatar";
-import breakpoints from "../shared/breakpoints";
+import Button from "../Layout/Button";
+import useUploadAPost from "../../hooks/post/useUploadAPost";
+import Avatar from "../Layout/Avatar";
+import breakpoints from "../../shared/breakpoints";
 
 const UploadAPostCss = css`
   margin: 0px 0px 23px 0px;

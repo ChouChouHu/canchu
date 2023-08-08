@@ -7,65 +7,10 @@ import useUpdateProfile from "../../hooks/user/useUpdateProfile";
 import useDeleteFriend from "../../hooks/friends/useDeleteFriend";
 import breakpoints from "../../shared/breakpoints";
 
-const SidebarCss = css`
-  margin-right: 30px;
-  padding: 25px 15px;
-  width: 460px;
-  min-width: 250px;
-
-  .info {
-    padding: 12px 10px;
-    font-size: 16px;
-    line-height: 24px;
-    h3 {
-      color: #525252;
-      font-size: 18px;
-      line-height: 24px;
-      margin-bottom: 12px;
-      margin-top: 10px;
-      font-weight: bold;
-    }
-    b {
-      display: block;
-      margin-bottom: 8px;
-    }
-    .icon {
-      width: 15px;
-      height: 15px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 10px;
-    }
-    .intro {
-      margin-bottom: 15px;
-      color: var(--main-color);
-    }
-    .defaultIntroText {
-      color: gray;
-    }
-    textarea {
-      min-height: 70px;
-    }
-    .functionList {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 10px;
-      button {
-        margin-right: 15px; // temp
-      }
-    }
-  }
-  @media ${breakpoints.tablet} {
-    width: 100%;
-    margin-bottom: 23px;
-  }
-`;
-
 function Sidebar({ user, isMyself }) {
   const [introduction, setIntroduction] = useState(user?.introduction);
   const [interesting, setInteresting] = useState(user?.tags);
+
   useEffect(() => {
     setIntroduction(user?.introduction);
     setInteresting(user?.tags);
@@ -85,41 +30,49 @@ function Sidebar({ user, isMyself }) {
   };
   return (
     <div className={`${SidebarCss} box`}>
-      {isMyself && (
+      {isMyself ? (
         <Button isBlock bold onClick={() => setEditing(true)} grey={isEditing}>
           編輯個人檔案
         </Button>
+      ) : user && (
+        <>
+          {!user.friendship && (
+            <Button isBlock bold onClick={() => sendFriendRequest(user.id)}>
+              邀請成為好友
+            </Button>
+          )}
+          {user.friendship && (
+            <>
+              {user.friendship.status === "requested" && (
+                <Button
+                  isBlock
+                  bold
+                  grey
+                  onClick={() => deleteFriend(user.friendship.id, true)}
+                >
+                  取消好友邀請
+                </Button>
+              )}
+              {user.friendship.status === "pending" && (
+                <Button isBlock bold onClick={() => agreeFriend(user.friendship.id)}>
+                  答應好友邀請
+                </Button>
+              )}
+              {user.friendship.status === "friend" && (
+                <Button
+                  isBlock
+                  bold
+                  grey
+                  onClick={() => deleteFriend(user.friendship.id)}
+                >
+                  刪除好友
+                </Button>
+              )}
+            </>
+          )}
+        </>
       )}
-      {!isMyself && user && !user.friendship && (
-        <Button isBlock bold onClick={() => sendFriendRequest(user.id)}>
-          邀請成為好友
-        </Button>
-      )}
-      {user && user.friendship?.status === "requested" && (
-        <Button
-          isBlock
-          bold
-          grey
-          onClick={() => deleteFriend(user.friendship.id, true)}
-        >
-          取消好友邀請
-        </Button>
-      )}
-      {user && user.friendship?.status === "pending" && (
-        <Button isBlock bold onClick={() => agreeFriend(user.friendship.id)}>
-          答應好友邀請
-        </Button>
-      )}
-      {user?.friendship?.status === "friend" && (
-        <Button
-          isBlock
-          bold
-          grey
-          onClick={() => deleteFriend(user.friendship.id)}
-        >
-          刪除好友
-        </Button>
-      )}
+
       <div className="info">
         <div className="intro">
           <h3>自我介紹</h3>
@@ -207,5 +160,61 @@ function Sidebar({ user, isMyself }) {
     </div>
   );
 }
+
+const SidebarCss = css`
+  margin-right: 30px;
+  padding: 25px 15px;
+  width: 460px;
+  min-width: 250px;
+
+  .info {
+    padding: 12px 10px;
+    font-size: 16px;
+    line-height: 24px;
+    h3 {
+      color: #525252;
+      font-size: 18px;
+      line-height: 24px;
+      margin-bottom: 12px;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    b {
+      display: block;
+      margin-bottom: 8px;
+    }
+    .icon {
+      width: 15px;
+      height: 15px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 10px;
+    }
+    .intro {
+      margin-bottom: 15px;
+      color: var(--main-color);
+    }
+    .defaultIntroText {
+      color: gray;
+    }
+    textarea {
+      min-height: 70px;
+    }
+    .functionList {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 10px;
+      button {
+        margin-right: 15px; // temp
+      }
+    }
+  }
+  @media ${breakpoints.tablet} {
+    width: 100%;
+    margin-bottom: 23px;
+  }
+`;
 
 export default Sidebar;

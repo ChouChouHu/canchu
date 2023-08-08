@@ -1,7 +1,7 @@
 import { css } from "@emotion/css";
-import Post from "./Post";
-import usePosts from "../hooks/post/usePosts";
-import useInfiniteScroll from "../hooks/useInfiniteScroll";
+import Post from ".";
+import usePosts from "../../hooks/post/usePosts";
+import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 
 const PostsCss = css`
   .nullMessage {

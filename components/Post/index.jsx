@@ -26,7 +26,7 @@ function Post({
 }) {
   const { user: myself } = useMyProfile();
   const isMyself = () => myself?.id === userId;
-  console.log("render")
+  // console.log("render")
 
   const [feedText, setFeedText] = useState(context);
   const [isEditing, setEditing] = useState(false);

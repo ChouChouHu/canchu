@@ -7,8 +7,9 @@ const useSearchUsers = (keyword) => {
   // const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (keyword === "") return
-    const fetchData = async () => {
+    if (!keyword) return
+    // console.log(keyword);
+    (async () => {
       const cookies = parseCookies();
       const { accessToken } = cookies;
       try {
@@ -26,9 +27,7 @@ const useSearchUsers = (keyword) => {
       } catch (err) {
         console.log(err.response.data || "取得用戶資料失敗");
       }
-    };
-
-    fetchData();
+    })();
   }, [keyword]);
 
   return users;

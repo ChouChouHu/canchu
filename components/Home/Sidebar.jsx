@@ -18,7 +18,7 @@ function Sidebar({ user }) {
   return (
     <div className={`${SidebarCss} box`}>
       <div className="function">
-        <Link href={`/user/${user?.id}`}>
+        <Link href={`/users/${user?.id}`}>
           <div className="circleImg">
             <Avatar picture={user?.picture} />
           </div>
@@ -38,7 +38,7 @@ function Sidebar({ user }) {
       </div>
       {pendingFriends?.map((pendingFriend) => (
         <div className="function" key="friend.id">
-          <Link href={`/user/${pendingFriend.id}`}>
+          <Link href={`/users/${pendingFriend.id}`}>
             <div className="circleImg">
             <Avatar picture={pendingFriend?.picture} />
             </div>
@@ -69,7 +69,7 @@ function Sidebar({ user }) {
         (friend, index) =>
           (index < 6 || showAllFriends) && (
             <div className="function" key="friend.id">
-              <Link href={`/user/${friend.id}`}>
+              <Link href={`/users/${friend.id}`}>
                 <div className="circleImg">
                   <Avatar picture={friend?.picture} />
                 </div>

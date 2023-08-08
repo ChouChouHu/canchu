@@ -2,10 +2,10 @@ import { css } from "@emotion/css";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import Layout from "../../components/Layout";
-import PostAPost from "../../components/UploadAPost";
+import PostAPost from "../../components/Post/UploadAPost";
 import useUserProfile from "../../hooks/user/useUserProfile";
 import useMyProfile from "../../hooks/user/useMyProfile";
-import Posts from "../../components/Posts";
+import Posts from "../../components/Post/Posts";
 import useUploadAvatar from "../../hooks/user/useUploadAvatar";
 import Sidebar from "../../components/Profile/Sidebar";
 import Avatar from "../../components/Layout/Avatar";
@@ -52,6 +52,7 @@ const UserPageCss = css`
           .editBtn {
             position: absolute;
             display: flex;
+            color: white;
           }
         }
       }
@@ -129,12 +130,8 @@ function UserPage() {
   const handleFileChange = (e) => {
     if (e.target.files[0]) {
       uploadAvatar(e.target.files[0]);
-      // if (response) {
-      //   console.log("圖片上傳成功:", response);
-      // }
     }
   };
-
   return (
     <Layout>
       <div className={UserPageCss}>
@@ -144,7 +141,6 @@ function UserPage() {
               <Avatar picture={user?.picture} />
               {isMyself() && (
                 <div className="editBtn">
-                  {" "}
                   <input
                     type="file"
                     accept="image/*"

@@ -96,7 +96,7 @@ function Home() {
                   陳治宏
                   劉威廷
                 </a><br />
-                <a href="" target="_blank" rel="noreferrer">G: GPTQuizHub /
+                <a href="https://www.notion.so/G-dad433967a1148088bc1b6a25b147c4e?pvs=4" target="_blank" rel="noreferrer">G: GPTQuizHub /
                   張孫琦
                   李青芳
                   蘇蓁葳
